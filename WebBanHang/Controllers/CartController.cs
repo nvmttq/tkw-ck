@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using WebBanHang.Models;
+
+namespace WebBanHang.Controllers
+{
+    
+    public class CartController : Controller
+    {
+        WebBanHangEntities db = new WebBanHangEntities();
+
+        public double CalcTotalPrice(int total, int discount, int ship)
+        {
+
+            return (total - (total*(discount/100)) + ship);
+        }
+
+        public double CalcProductPrice(int price, int discount)
+        {
+            return price - (price * (discount / 100));
+        }
+
+        public List<Cart> GetProductCart(User user)
+        {
+           
+            var cart = (from crt in db.Carts
+                        where crt.UserId == user.Username
+                        select crt).ToList();
+            return (List<Cart>)cart;
+        }
+        // GET: Cart
+        public ActionResult Index()
+        {
+            ViewBag.TotalPrice = 0;
+            var user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var carts = db.Carts.ToList();
+            var products = db.Products.ToList();
+            ProductCart pc = new ProductCart();
+            var productCart = (from p in db.Products
+                               join crt in db.Carts
+                               on p.Id equals crt.ProductId
+                               where user.Username == crt.UserId
+                               select new
+                               {
+                                   cart = crt,
+                                   product = p
+                                   
+                               }).ToList() ;
+            List<Product> lp = new List<Product>();
+            List<Cart> lc = new List<Cart>();
+            foreach(var item in productCart)
+            {
+                ViewBag.TotalPrice += CalcProductPrice((int)item.product.Price, item.product.Discount);
+                lp.Add(item.product);
+                lc.Add(item.cart);
+            }
+
+            
+            pc.product = lp;
+            pc.cart = lc;
+            Session["carts"] = pc;
+            return View(pc);
+        }
+      
+
+
+        public ActionResult AddToCart(int ProductId, string returnUrl)
+        {
+            var user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var findCart = (from c in db.Carts
+                        where c.ProductId == ProductId
+                            select c).FirstOrDefault();
+            if(findCart != null)
+            {
+                findCart.Quantity += 1;
+            } else
+            {
+                Cart cart = new Cart();
+                cart.ProductId = ProductId;
+                cart.UserId = user.Username;
+                cart.Quantity = 1;
+                cart.CreatedAt = DateTime.Now;
+                cart.UpdatedAt = DateTime.Now;
+                db.Carts.Add(cart);
+            }
+            db.SaveChanges();
+
+            return Redirect(returnUrl);
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="10a72c21a7274e428b0c23dda93f8654" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="WebBanHangModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.Category" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.Coupon" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.OrderDetail" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.Product" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.ProductCategory" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.Role" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanHangModel.Order" Width="1.5" PointX="9.375" PointY="4.75" />
+        <EntityTypeShape EntityType="WebBanHangModel.User" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WebBanHangModel.Feedback" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="WebBanHangModel.ProductListImage" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WebBanHangModel.Cart" Width="1.5" PointX="3.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

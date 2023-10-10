@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <link href="~/Content/mdb.min.css" rel="stylesheet" />
+    <link href="~/Content/homepage.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column vh-100">
+    <!-- Navbar -->
+    @Html.Partial("_NavBarPartial")
+    @RenderSection("Carousel", required: false)
+
+    <!--Main layout-->
+    <main id="content" class="flex-grow-1" style="width: calc(100% - 40px); margin: 0 auto 0;">
+        <div id="content-panel" class="" style="">
+            <!-- Navbar -->
+            @RenderBody()
+        </div>
+    </main>
+    <!--Main layout-->
+
+    <footer class="text-center text-white mt-auto p-0"
+            style="background-color: #607d8b; position: relative; bottom: 0px;">
+       
+
+        <div class="container">
+            <!-- Section: Social media -->
+                <!-- Facebook -->
+                <a class="btn-link btn-floating btn-lg text-white"
+                   href="#!"
+                   role="button"
+                   data-mdb-ripple-color="dark">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+
+                <!-- Twitter -->
+                <a class="btn-link btn-floating btn-lg text-white"
+                   href="#!"
+                   role="button"
+                   data-mdb-ripple-color="dark">
+                    <i class="fab fa-twitter"></i>
+                </a>
+
+                <!-- Google -->
+                <a class="btn-link btn-floating btn-lg text-white"
+                   href="#!"
+                   role="button"
+                   data-mdb-ripple-color="dark">
+                    <i class="fab fa-google"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a class="btn-link btn-floating btn-lg text-white"
+                   href="#!"
+                   role="button"
+                   data-mdb-ripple-color="dark">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+                <!-- YouTube -->
+                <a class="btn-link btn-floating btn-lg text-white"
+                   href="#!"
+                   role="button"
+                   data-mdb-ripple-color="dark">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <!-- Github -->
+                <a class="btn-link btn-floating btn-lg text-white"
+                   href="#!"
+                   role="button"
+                   data-mdb-ripple-color="dark">
+                    <i class="fab fa-github"></i>
+                </a>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+        <!-- Copyright -->
+        <div class="text-center py-2"
+             style="background-color: rgba(0, 0, 0, 0.2); color: #e0e0e0">
+            © 2022 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">Hello World</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <script src="~/Scripts/mdb.min.js"></script>
+    <script>
+        $(window).resize(function () {
+            var headerfixed = $('#header-fixed');
+            var content = $('#content').css({
+                'margin-top': (headerfixed[0].clientHeight + 5) + 'px'
+            });
+            console.log(headerfixed[0].clientHeight)
+        }).trigger('resize');
+    </script>
+</body>
+</html>
