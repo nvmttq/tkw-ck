@@ -17,16 +17,15 @@
         </button>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuSorting" style="height: max-content;">
-            @Html.ActionLink("Sắp xếp tăng dần theo tên SP", "SortingProduct", "Home", new { sortby = "Name" }, new { @class = "dropdown-item" })
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','NAME','ASC')">Sắp xếp tăng dần theo tên SP</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','NAME','DESC')">"Sắp xếp giảm dần theo tên SPP</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','PRICE','ASC')">Sắp xếp theo giá SP tăng dần</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','PRICE','DESC')">Sắp xếp theo giá SP giảm dần</div>
 
-
-            @Html.ActionLink("Sắp xếp giảm dần theo tên SP", "SortingProduct", "Home", new { sortby = "NameDesc" }, new { @class = "dropdown-item" })
-
-            @Html.ActionLink("Sắp xếp theo giá SP tăng dần", "SortingProduct", "Home", new { sortby = "Price" }, new { @class = "dropdown-item" })
-
-            @Html.ActionLink("Sắp xếp theo giá SP giảm dần", "SortingProduct", "Home", new { sortby = "PriceDesc" }, new { @class = "dropdown-item" })
 
         </div>
+        <button class="btn btn-primary" onclick="App.ClearFilter('sortby')">Xóa bộ lọc</button>
+
     </div>
     <!-- Section: Condition -->
     <section class="mb-4" data-filter="condition">
@@ -60,50 +59,10 @@
                 </label>
             </div>
         }
-
+        <button class="btn btn-primary" onclick="App.ClearFilter('CategoryId')">Xóa bộ lọc</button>
     </section>
     <!-- Section: Condition -->
-    <!-- Section: Avg. Customer Review -->
-    <section class="mb-4">
-        <h6 class="font-weight-bold mb-3">Avg. Customer Review</h6>
-
-        <ul class="rating"
-            data-toggle="rating"
-            id="filter-rating"
-            tabindex="0">
-            <li>
-                <i class="far fa-star fa-sm text-primary"
-                   title=""
-                   data-toggle="tooltip"
-                   data-original-title="1"></i>
-            </li>
-            <li>
-                <i class="far fa-star fa-sm text-primary"
-                   title=""
-                   data-toggle="tooltip"
-                   data-original-title="2"></i>
-            </li>
-            <li>
-                <i class="far fa-star fa-sm text-primary"
-                   title=""
-                   data-toggle="tooltip"
-                   data-original-title="3"></i>
-            </li>
-            <li>
-                <i class="far fa-star fa-sm text-primary"
-                   title=""
-                   data-toggle="tooltip"
-                   data-original-title="4"></i>
-            </li>
-            <li>
-                <i class="far fa-star fa-sm text-primary"
-                   title=""
-                   data-toggle="tooltip"
-                   data-original-title="5"></i>
-            </li>
-        </ul>
-    </section>
-    <!-- Section: Avg. Customer Review -->
+    
     <!-- Section: Price -->
     <section class="mb-4">
         <h6 class="font-weight-bold mb-3">Price</h6>

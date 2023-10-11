@@ -24,42 +24,119 @@ namespace WebBanHang.Controllers
         }
 
      
-        public ActionResult Search(int? pageCurrent, string categoryId = null,  string keyword = null)
+        public ActionResult Search(int? pageCurrent, string categoryId = null,  string keyword = null, string sortby = null, string order = null)
         {
             var isAjax = Request.IsAjaxRequest();
             ViewBag.url = Request.Url.ToString();
             if (isAjax == false) return RedirectToAction("Index");
-            var splitCategoryId = new List<string>();
-            if(categoryId == null || categoryId == "")
+            IQueryable<Product> model = db.Products;
+
+            var CategoryIdParams = Request.QueryString["CategoryId"];
+            var KeywordParams = Request.QueryString["keyword"];
+
+            if (!String.IsNullOrEmpty(CategoryIdParams))
             {
-                foreach(var c in db.Categories.ToList())
+                var split = CategoryIdParams.Split(',').ToList();
+                model = from p in model
+                        join pc in db.ProductCategories on p.Id equals pc.ProductId
+                        join c in db.Categories on pc.CategoryId equals c.Id
+                        where split.Contains(c.Id.ToString()) == true
+                        select p;
+            }
+
+            if (!String.IsNullOrEmpty(KeywordParams))
+            {
+                model = from p in model
+                        where p.Name.ToString().ToUpper().Contains(KeywordParams.ToUpper())
+                        select p;
+            }
+
+
+            if (!String.IsNullOrEmpty(sortby))
+            {
+                order = order.ToUpper();
+                sortby = sortby.ToUpper();
+                if (order == "DESC" || order == "DESCENDING")
                 {
-                    splitCategoryId.Add(c.Id.ToString());
+                    if (sortby == "NAME") model = model.OrderByDescending(p => p.Name.ToUpper());
+                    if (sortby == "PRICE") model = model.OrderByDescending(p => p.Price);
                 }
-            } else
-            {
-                foreach(var c in categoryId.Split(','))
+                else
                 {
-                    splitCategoryId.Add(c.ToString());
+                    if (sortby == "NAME") model = model.OrderBy(p => p.Name.ToUpper());
+                    if (sortby == "PRICE") model = model.OrderBy(p => p.Price);
                 }
             }
 
-            var defaultListProduct = (from p in db.Products
-                                      join pc in db.ProductCategories on p.Id equals pc.ProductId
-                                      join c in db.Categories on pc.CategoryId equals c.Id
-                                      where (splitCategoryId).Contains(c.Id.ToString()) == true &&
-                                      (keyword == null ? p.Name.ToString() : keyword.ToString()).Contains(p.Name.ToString()) == true
-                                      select p);
+            //IQueryable<Product> products = db.Products;
+            //if (!String.IsNullOrEmpty(keyword)) products = products.Where(p => p.Name.ToString().ToUpper().Contains(keyword.ToUpper()));
 
-            var tmp = defaultListProduct;
+
+            var tmp = model;
             var pagesize = tmp.ToList().Count();
-            ViewBag.ActiveCategoryId = categoryId;
-            ViewBag.TotalPage = pagesize / 10;
+            ViewBag.TotalPage = pagesize / 10; if (pagesize % 10 != 0) ViewBag.TotalPage++;
             ViewBag.ActivePage = (pageCurrent ?? 1);
-            if (pagesize % 10 != 0) ViewBag.TotalPage++;
 
-            return PartialView("_ProductsPartial", defaultListProduct.ToList().Distinct().OrderBy(p=>p.Name).Skip(((pageCurrent ?? 1)-1)*recordPerPage).Take(recordPerPage).ToList());
+            return PartialView("_ProductsPartial", model.ToList().Distinct().Skip(((pageCurrent ?? 1) - 1) * recordPerPage).Take(recordPerPage).ToList());
         }
+
+        public ActionResult Sorting(string sortby, string order, int? pageCurrent)
+        {
+            pageCurrent = (pageCurrent ?? 1);
+            var isAjax = Request.IsAjaxRequest();
+            ViewBag.url = Request.Url.ToString();
+            if (isAjax == false) return RedirectToAction("Index");
+
+            IQueryable<Product> model = db.Products;
+
+            var CategoryIdParams = Request.QueryString["CategoryId"];
+            var KeywordParams = Request.QueryString["keyword"];
+
+            if (!String.IsNullOrEmpty(CategoryIdParams))
+            {
+                var split = CategoryIdParams.Split(',').ToList();
+                model = from p in model
+                        join pc in db.ProductCategories on p.Id equals pc.ProductId
+                        join c in db.Categories on pc.CategoryId equals c.Id
+                        where split.Contains(c.Id.ToString()) == true
+                        select p;
+            }
+            
+            if(!String.IsNullOrEmpty(KeywordParams))
+            {
+                model = from p in model
+                        where p.Name.ToString().ToUpper().Contains(KeywordParams.ToUpper())
+                        select p;
+            }
+            
+            
+            if(!String.IsNullOrEmpty(sortby))
+            {
+                order = order.ToUpper();
+                sortby = sortby.ToUpper();
+                if ( order == "DESC" || order == "DESCENDING")
+                {
+                    if (sortby == "NAME") model = model.OrderByDescending(p => p.Name.ToUpper());
+                    if (sortby == "PRICE") model = model.OrderByDescending(p => p.Price);
+                } else
+                {
+                    if (sortby == "NAME") model = model.OrderBy(p => p.Name.ToUpper());
+                    if (sortby == "PRICE") model = model.OrderBy(p => p.Price);
+                }
+            }
+
+            //IQueryable<Product> products = db.Products;
+            //if (!String.IsNullOrEmpty(keyword)) products = products.Where(p => p.Name.ToString().ToUpper().Contains(keyword.ToUpper()));
+           
+
+            var tmp = model;
+            var pagesize = tmp.ToList().Count();
+            ViewBag.TotalPage = pagesize / 10; if (pagesize % 10 != 0) ViewBag.TotalPage++;
+            ViewBag.ActivePage = (pageCurrent ?? 1);
+
+            return PartialView("_ProductsPartial", model.ToList().Distinct().Skip(((pageCurrent ?? 1) - 1) * recordPerPage).Take(recordPerPage).ToList());
+        }
+
         public ActionResult _ProductsPartial(int? CategoryId, int page)
         {
 

@@ -265,6 +265,7 @@
       <LastGenOutput>WebBanHangModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\App.js" />
+    <Content Include="Scripts\cartController.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

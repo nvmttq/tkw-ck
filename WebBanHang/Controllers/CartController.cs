@@ -58,7 +58,7 @@ namespace WebBanHang.Controllers
             List<Cart> lc = new List<Cart>();
             foreach(var item in productCart)
             {
-                ViewBag.TotalPrice += CalcProductPrice((int)item.product.Price, item.product.Discount);
+                ViewBag.TotalPrice += CalcProductPrice((int)item.product.Price, item.product.Discount)*item.cart.Quantity;
                 lp.Add(item.product);
                 lc.Add(item.cart);
             }
@@ -99,6 +99,39 @@ namespace WebBanHang.Controllers
             db.SaveChanges();
 
             return Redirect(returnUrl);
+        }
+
+        public void UpdateQuantity(int? productId, int quantities = 0)
+        {
+            var user = (User)Session["user"];
+            
+            if(productId != null)
+            {
+                var cart = (from p in db.Products
+                               join c in db.Carts on p.Id equals c.ProductId
+                               where p.Id == productId && c.UserId == user.Username
+                               select c).SingleOrDefault();
+
+                cart.Quantity = quantities;
+                cart.UpdatedAt = DateTime.Now;
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveProduct(int? productId)
+        {
+            var user = (User)Session["user"];
+
+            if (productId != null)
+            {
+                var cart = (from p in db.Products
+                            join c in db.Carts on p.Id equals c.ProductId
+                            where p.Id == productId && c.UserId == user.Username
+                            select c).SingleOrDefault();
+
+                db.Carts.Remove(cart);
+                db.SaveChanges();
+            }
         }
     }
 }
