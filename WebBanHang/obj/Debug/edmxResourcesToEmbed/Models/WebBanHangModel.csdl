@@ -90,12 +90,13 @@
     <Property Name="OrderDate" Type="DateTime" Precision="3" />
     <Property Name="Status" Type="Boolean" />
     <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-    <Property Name="Discount" Type="Int32" />
+    <Property Name="Discount" Type="Decimal" />
     <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="User">
     <Key>

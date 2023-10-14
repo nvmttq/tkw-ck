@@ -34,9 +34,9 @@ namespace WebBanHang.Controllers
             var CategoryIdParams = Request.QueryString["CategoryId"];
             var KeywordParams = Request.QueryString["keyword"];
 
-            if (!String.IsNullOrEmpty(CategoryIdParams))
+            if (!String.IsNullOrEmpty(categoryId))
             {
-                var split = CategoryIdParams.Split(',').ToList();
+                var split = categoryId.Split(',').ToList();
                 model = from p in model
                         join pc in db.ProductCategories on p.Id equals pc.ProductId
                         join c in db.Categories on pc.CategoryId equals c.Id
@@ -44,10 +44,10 @@ namespace WebBanHang.Controllers
                         select p;
             }
 
-            if (!String.IsNullOrEmpty(KeywordParams))
+            if (!String.IsNullOrEmpty(keyword))
             {
                 model = from p in model
-                        where p.Name.ToString().ToUpper().Contains(KeywordParams.ToUpper())
+                        where p.Name.ToString().ToUpper().Contains(keyword.ToUpper())
                         select p;
             }
 

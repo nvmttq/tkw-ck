@@ -106,3 +106,5 @@ C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.csproj.CoreComp
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.csproj.CopyComplete
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.pdb
+C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\PayPal.dll
+C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\PayPal.xml

@@ -46,6 +46,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -171,8 +174,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -201,6 +206,8 @@
     <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>WebBanHangModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Payments\VnPayLibrary.cs" />
+    <Compile Include="Models\PaypalConfiguration.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>WebBanHangModel.tt</DependentUpon>
     </Compile>
@@ -266,6 +273,7 @@
     </Content>
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\cartController.js" />
+    <Content Include="Scripts\checkoutController.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -320,6 +328,10 @@
     <Content Include="Views\Account\LoginWithUsername.cshtml" />
     <Content Include="Views\Shared\_FilterProductPartial.cshtml" />
     <Content Include="Views\Shared\_ProductsPartial.cshtml" />
+    <Content Include="Views\Checkout\Index.cshtml" />
+    <Content Include="Views\Order\SuccessView.cshtml" />
+    <Content Include="Views\Order\FailureView.cshtml" />
+    <Content Include="Views\Order\VnpayReturn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

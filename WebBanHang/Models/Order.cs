@@ -18,11 +18,12 @@ namespace WebBanHang.Models
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<bool> Status { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
-        public Nullable<int> Discount { get; set; }
+        public Nullable<decimal> Discount { get; set; }
         public string Note { get; set; }
         public string UserId { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string FullName { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
     }
 }

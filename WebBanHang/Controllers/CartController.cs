@@ -18,9 +18,9 @@ namespace WebBanHang.Controllers
             return (total - (total*(discount/100)) + ship);
         }
 
-        public double CalcProductPrice(int price, int discount)
+        public double CalcProductPrice(double price, int discount)
         {
-            return price - (price * (discount / 100));
+            return price - (price * ((double)discount / 100.0));
         }
 
         public List<Cart> GetProductCart(User user)
@@ -34,6 +34,7 @@ namespace WebBanHang.Controllers
         // GET: Cart
         public ActionResult Index()
         {
+            ViewBag.TotalPriceDiscount = 0;
             ViewBag.TotalPrice = 0;
             var user = (User)Session["user"];
             if (user == null)
@@ -58,12 +59,13 @@ namespace WebBanHang.Controllers
             List<Cart> lc = new List<Cart>();
             foreach(var item in productCart)
             {
-                ViewBag.TotalPrice += CalcProductPrice((int)item.product.Price, item.product.Discount)*item.cart.Quantity;
+                ViewBag.TotalPriceDiscount += CalcProductPrice((double)item.product.Price, item.product.Discount) * item.cart.Quantity;
+                ViewBag.TotalPrice += ((double)item.product.Price * (double)item.cart.Quantity);
                 lp.Add(item.product);
                 lc.Add(item.cart);
             }
 
-            
+            ViewBag.Discount = ViewBag.TotalPrice - ViewBag.TotalPriceDiscount;
             pc.product = lp;
             pc.cart = lc;
             Session["carts"] = pc;

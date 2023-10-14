@@ -55,12 +55,13 @@
     <Property Name="OrderDate" Type="datetime" />
     <Property Name="Status" Type="bit" />
     <Property Name="DeliveryDate" Type="datetime" />
-    <Property Name="Discount" Type="int" />
     <Property Name="Note" Type="nvarchar" MaxLength="100" />
     <Property Name="UserId" Type="varchar" MaxLength="50" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Phone" Type="varchar" MaxLength="20" />
     <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+    <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Discount" Type="decimal" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
