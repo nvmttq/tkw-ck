@@ -6,6 +6,7 @@
 }
 @Html.Action("_NavPillPartial", "Home", new { ActiveCategoryId = ViewBag.ActiveCategoryId })
 
+
 <section class="row px-5 gap-2">
     @Html.Action("_FilterProductPartial", "Home")
     <section class="col-md-9 flex-grow-1" id="tb-product">
@@ -91,9 +92,9 @@
                                 }*@
                                 <div class="d-flex flex-column mt-4">
                                     <a class="btn btn-primary text-white" href="@Url.Action("Details", "Product", new { ProductId = p.Id })" type="button">Details</a>
-                                    <a class="btn btn-secondary btn-sm mt-2 hover:grow" href="@Url.Action("AddToCart", "Cart", new { ProductId=p.Id, returnUrl=Request.Url.ToString()})">
+                                    <button class="btn btn-secondary btn-sm mt-2 hover:grow" onclick="Cart.AddToCart(@p.Id,1)">
                                         Add to cart
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -129,3 +130,6 @@
         <!-- Pagination -->
     </section>
 </section>
+
+
+

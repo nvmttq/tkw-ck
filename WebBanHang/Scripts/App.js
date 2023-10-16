@@ -94,6 +94,43 @@ var App = {
         });
     },
 
+    FilterPrice: (from, to) => {
+        var queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var categoryIdParams = urlParams.get('CategoryId')
+        var keywordParams = urlParams.get('keyword');
+        var pageParams = urlParams.get('page');
+        var sortbyParams = urlParams.get('sortby')
+        var orderParams = urlParams.get('order')
+       
+        urlParams.set("fromPrice", from);
+        urlParams.set("toPrice", to);
+        var fromPrice = from.toString();
+        var toPrice = to.toString();
+        var input = event.target;
+        console.log(from, to, urlParams.toString(), event.target)
+        $.ajax({
+          
+            type: "get",
+            url: `/Home/Search?${urlParams.toString()}`,
+            datatype: "json",
+            success: function (res) {
+
+                input.checked = true;
+                console.log(res, this)
+                window.history.pushState("", "", `/Home/Search?${urlParams.toString()}`);
+
+                $("#content-panel").empty();
+                $("#content-panel").append(res);
+                
+
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    },
+
     SearchCategory: function (categoryId, keyword, page, sortby, order) {
         console.log(keyword)
         var queryString = window.location.search;
@@ -151,7 +188,7 @@ var App = {
         console.log(`Home/Search/?${urlParams.toString()}`)
 
         $.ajax({
-            data: { CategoryId: dataCategoryId.data, pageCurrent: urlPageParams, keyword: urlKeywordParams, sortby: sortby, order:order },
+           
             type: "get",
             url: `/Home/Search?${urlParams.toString()}`,
             datatype: "json",

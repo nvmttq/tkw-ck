@@ -6,7 +6,6 @@
     var user = (User)Session["user"];
 }
 
-<script src="~/Scripts/checkoutController.js"></script>
 <section class="row">
     <!-- Checkout -->
     <div class="card shadow-0 border col-xl-8 col-lg-8 mb-4">
@@ -61,18 +60,15 @@
                 </div>
             </div>
 
-            @*<div class="form-group">
+            <div class="form-group">
                 <label>Hình thức thanh toán</label>
-                <select class="form-control" name="TypePayment" id="drTypePayment">
+                <select class="form-control" name="TypePayment" id="drTypePayment" onchange="Checkout.LoadMethodPayment(event)">
                     <option value="1" selected>COD</option>
                     <option value="2">Chuyển khoản</option>
                 </select>
-            </div>*@
-            <div class="form-group" id="load_form_payment" style="display:block;">
+            </div>
+            <div class="form-group" id="load_form_payment" style="display:none;">
                 <h4> <label>Chọn phương thức thanh toán:</label><br /></h4>
-                <h5>Cách 1: Chuyển hướng sang VNPAY chọn phương thức thanh toán</h5>
-                <label><input type="radio" name="TypePaymentVN" value="0" checked /> Cổng thanh toán VNPAYQR </label>
-                <h5>Cách 2: Tách phương thức thanh toán tại site của Merchant</h5>
                 <label><input type="radio" name="TypePaymentVN" value="1" /> Thanh toán qua ứng dụng hỗ trợ VNPAYQR </label><br />
                 <label><input type="radio" name="TypePaymentVN" value="2" /> ATM-Tài khoản ngân hàng nội địa </label><br />
                 <label><input type="radio" name="TypePaymentVN" value="3" /> Thanh toán qua thẻ quốc tế </label><br />
@@ -157,19 +153,3 @@
         }, 3000)
     }
 </script>
-<button type="button" class="btn btn-primary" id="liveToastBtn" onclick="loadToast()">Show live toast</button>
-
-<div id="toast-success-order" class="position-fixed start-50 top-50 p-3" style="z-index: 11">
-    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
-            <strong class="me-auto">Thông báo</strong>
-            @*<small>11 mins ago</small>*@
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="$('#liveToast').removeClass('show')"></button>
-        </div>
-        <div class="toast-body">
-            Thêm vào giỏ hàng thành công
-        </div>
-    </div>
-</div>
-

@@ -36,5 +36,24 @@ const Cart = {
                 console.log(err.responseText);
             }
         });
+    },
+
+    AddToCart: (productId, quantities) => {
+        $.ajax({
+            data: { productId: productId, quantities: parseInt(quantities) },
+            type: "post",
+            url: `/Cart/AddToCart`,
+            datatype: "json",
+            success: function (res) {
+
+                if (res.code == 200) {
+                    console.log(res);
+                    $("#number-of-productcart").text(res.quantities.toString());
+                }
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
     }
 }

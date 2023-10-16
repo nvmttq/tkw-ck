@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,28 +13,16 @@ namespace WebBanHang.Controllers
     {
         WebBanHangEntities db = new WebBanHangEntities();
 
-        public double CalcTotalPrice(int total, int discount, int ship)
-        {
+    
 
-            return (total - (total*(discount/100)) + ship);
-        }
+     
 
-        public double CalcProductPrice(double price, int discount)
-        {
-            return price - (price * ((double)discount / 100.0));
-        }
+       
 
-        public List<Cart> GetProductCart(User user)
-        {
-           
-            var cart = (from crt in db.Carts
-                        where crt.UserId == user.Username
-                        select crt).ToList();
-            return (List<Cart>)cart;
-        }
         // GET: Cart
         public ActionResult Index()
         {
+           
             ViewBag.TotalPriceDiscount = 0;
             ViewBag.TotalPrice = 0;
             var user = (User)Session["user"];
@@ -42,56 +31,33 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var carts = db.Carts.ToList();
-            var products = db.Products.ToList();
-            ProductCart pc = new ProductCart();
-            var productCart = (from p in db.Products
-                               join crt in db.Carts
-                               on p.Id equals crt.ProductId
-                               where user.Username == crt.UserId
-                               select new
-                               {
-                                   cart = crt,
-                                   product = p
-                                   
-                               }).ToList() ;
-            List<Product> lp = new List<Product>();
-            List<Cart> lc = new List<Cart>();
-            foreach(var item in productCart)
-            {
-                ViewBag.TotalPriceDiscount += CalcProductPrice((double)item.product.Price, item.product.Discount) * item.cart.Quantity;
-                ViewBag.TotalPrice += ((double)item.product.Price * (double)item.cart.Quantity);
-                lp.Add(item.product);
-                lc.Add(item.cart);
-            }
-
-            ViewBag.Discount = ViewBag.TotalPrice - ViewBag.TotalPriceDiscount;
-            pc.product = lp;
-            pc.cart = lc;
-            Session["carts"] = pc;
+            ProductCart pc = ProductCart.GetProductCart(user.Username, db.Carts.ToList(), db.Products.ToList());
+            Session["cart"] = pc;
             return View(pc);
         }
-      
 
 
-        public ActionResult AddToCart(int ProductId, string returnUrl)
+        [HttpPost]
+        public JsonResult AddToCart(int productId, int quantities)
         {
             var user = (User)Session["user"];
+            string returnUrl = ConfigurationManager.AppSettings["host_port"] + "/";
+
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return Json(new { code = 500, msg = "Vui lòng đăng nhập trước khi thêm vào giỏ hàng", returnUrl = returnUrl });
             }
 
             var findCart = (from c in db.Carts
-                        where c.ProductId == ProductId
+                            where c.ProductId == productId
                             select c).FirstOrDefault();
-            if(findCart != null)
+            if (findCart != null)
             {
                 findCart.Quantity += 1;
             } else
             {
                 Cart cart = new Cart();
-                cart.ProductId = ProductId;
+                cart.ProductId = productId;
                 cart.UserId = user.Username;
                 cart.Quantity = 1;
                 cart.CreatedAt = DateTime.Now;
@@ -100,7 +66,9 @@ namespace WebBanHang.Controllers
             }
             db.SaveChanges();
 
-            return Redirect(returnUrl);
+            var pc = ProductCart.GetProductCart(user.Username, db.Carts.ToList(), db.Products.ToList());
+            Session["cart"] = pc;
+            return Json(new { code = 200, msg = "Thêm vào giỏ hàng thành công", quantities= pc.product.Count()});
         }
 
         public void UpdateQuantity(int? productId, int quantities = 0)

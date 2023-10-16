@@ -1,10 +1,9 @@
 ﻿
 
 @model IEnumerable<WebBanHang.Models.StoreFilterModel>
-@{
 
 
-}
+
 <section class="col-md-2" id="filters">
     <h5>Filters</h5>
     <div class="dropdown-sort">
@@ -71,43 +70,49 @@
             <input class="form-check-input"
                    type="radio"
                    name="flexRadioDefault"
-                   id="price-radio" />
+                   id="price-radio" 
+                   onclick="App.FilterPrice(0, 100000)"
+                   />
             <label class="form-check-label text-uppercase small text-muted"
                    for="price-radio">
-                Under $25
+                Dưới @String.Format("{0:0,0 VNĐ}", 100000)
             </label>
         </div>
 
-        <div class="form-check mb-3">
+        <div class="form-check mb-3" >
             <input class="form-check-input"
                    type="radio"
                    name="flexRadioDefault"
-                   id="price-radio2" />
+                   id="price-radio2" 
+                   onclick="App.FilterPrice(100000, 500000)"/>
             <label class="form-check-label text-uppercase small text-muted"
                    for="price-radio2">
-                $25 to $50
+                @String.Format("{0:0,0 VNĐ}", 100000) đến @String.Format("{0:0,0 VNĐ}", 500000)
             </label>
         </div>
 
-        <div class="form-check mb-3">
+        <div class="form-check mb-3" onclick="App.FilterPrice(50000, 1000000)">
             <input class="form-check-input"
                    type="radio"
                    name="flexRadioDefault"
-                   id="price-radio3" />
+                   id="price-radio3" 
+                   
+                   />
             <label class="form-check-label text-uppercase small text-muted"
                    for="price-radio3">
-                $50 to $100
+                @String.Format("{0:0,0 VNĐ}", 500000) đến @String.Format("{0:0,0 VNĐ}", 1000000)
+
             </label>
         </div>
 
-        <div class="form-check mb-3">
+        <div class="form-check mb-3" >
             <input class="form-check-input"
                    type="radio"
                    name="flexRadioDefault"
-                   id="price-radio4" />
+                   id="price-radio4" onchange="App.FilterPrice(1000000, 2000000)" />
             <label class="form-check-label text-uppercase small text-muted"
                    for="price-radio4">
-                $100 to $200
+                @String.Format("{0:0,0 VNĐ}", 1000000) đến @String.Format("{0:0,0 VNĐ}", 2000000)
             </label>
         </div>
 
@@ -115,16 +120,16 @@
             <input class="form-check-input"
                    type="radio"
                    name="flexRadioDefault"
-                   id="price-radio5" />
+                   id="price-radio5" onchange="App.FilterPrice(2000000, 99999999)"/>
             <label class="form-check-label text-uppercase small text-muted"
                    for="price-radio5">
-                $200 &amp; above
+                từ @String.Format("{0:0,0 VNĐ}",2000000)
             </label>
         </div>
     </section>
     <!-- Section: Price -->
     <!-- Section: Size -->
-    <section class="mb-4" data-filter="size">
+    @*<section class="mb-4" data-filter="size">
         <h6 class="font-weight-bold mb-3">Size</h6>
 
         <div class="form-check mb-3">
@@ -170,10 +175,10 @@
                 40
             </label>
         </div>
-    </section>
+    </section>*@
     <!-- Section: Size -->
     <!-- Section: Color -->
-    <section class="mb-4" data-filter="color">
+    @*<section class="mb-4" data-filter="color">
         <h6 class="font-weight-bold mb-3">Color</h6>
 
         <div class="form-check form-check-inline m-0 p-0 pr-3">
@@ -236,6 +241,6 @@
             <label class="btn bg-warning btn-rounded p-3"
                    for="colorRadio10"></label>
         </div>
-    </section>
+    </section>*@
     <!-- Section: Color -->
 </section>

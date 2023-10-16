@@ -6,77 +6,19 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2"
-     style="background-color: #607d8b">
-    <!-- Container wrapper -->
-    <div class="container-fluid">
-        <!-- Navbar brand -->
-        <a class="navbar-brand" href="#">Categories:</a>
-
-        <!-- Toggle button -->
-        <button class="navbar-toggler"
-                type="button"
-                data-mdb-toggle="collapse"
-                data-mdb-target="#navbarSupportedContent2"
-                aria-controls="navbarSupportedContent2"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
-                <!-- Link -->
-                <li onclick="App.SearchCategory(0)" class="nav-item @(ViewBag.ActiveCategoryId == 0 ? "active" : "")">
-                    <a class="nav-link text-white">All</a>
-                </li>
-                @foreach (var c in Model)
-                {
-
-                    <li onclick="App.SearchCategory(@c.Id)" class="nav-item @(ViewBag.ActiveCategoryId == c.Id ? "active" : "")">
-                        <a class="nav-link text-white user-select-none">@c.Name</a>
-                    </li>
-                }
-                <li class="nav-item">
-
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle hidden-arrow bg-transparent"
-                                type="button"
-                                id="dropdownMenuButton1"
-                                data-mdb-toggle="dropdown"
-                                aria-expanded="true">
-                            <img src="~/Images/Icons/filter.png" />
-                        </button>
-
-                        <form action="@Url.Action("FilterProduct", "Home")" method="post" class="dropdown-menu" id="az" aria-labelledby="dropdownMenuButton1" style="height: max-content;">
-                            @foreach (var c in Model)
-                            {
-                                <div class="input-group dropdown-item d-flex align-items-center gap-2">
-                                    <input type="checkbox" id="@c.Name" name="@c.Name" value="@c.Name" />
-                                    <label for="@c.Name">@c.Name</label>
-                                </div>
-                            }
-                            <div class="dropdown-divider"></div>
-                            <button class="btn btn-primary" style="width: 100%;">Lọc Theo</button>
-
-                        </form>
-                    </div>
-                </li>
-            </ul>
-
-       
-            <!-- Search -->
-            <div  class="input-group w-auto h-100 py-1" style="max-width: 16rem;" >
-                <div class="form-outline bg-white">
-                    <input type="text" name="keyword" id="keyword" class="form-control" />
-                    <label class="form-label" for="keyword">Search</label>
-                </div>
-
-                <button onclick="App.SearchCategory('',$('#keyword').val(),'1')" id="submit-keyword" type="button" class="btn btn-primary">Tìm kiếm</button>
-            </div>
+<!-- Search -->
+<div class="input-group w-75 h-100 py-1" style="margin: 0 auto; margin-bottom: 10px;">
 
 
-        </div>
-    </div>
-    <!-- Container wrapper -->
-</nav>
+    <input type="search"
+           class="form-control"
+           name="keyword1" id="keyword"
+           value="@Request.QueryString["keyword"]"
+           placeholder="Tìm kiếm gì đó...."
+           aria-label="Search"
+           aria-describedby="search-addon"
+           autocomplete="off"
+            />
+
+    <button onclick="App.SearchCategory('',$('#keyword').val(),'1')" id="submit-keyword" type="button" class="btn btn-primary">Tìm kiếm</button>
+</div>

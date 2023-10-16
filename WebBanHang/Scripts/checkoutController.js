@@ -6,7 +6,15 @@
 
 var Checkout = {
             
-
+    LoadMethodPayment: (e) => {
+        var optionSelected = $("#drTypePayment option:selected").val();
+       
+        if (optionSelected.toString() === '2') {
+            $("#load_form_payment").show();
+        } else {
+            $("#load_form_payment").hide();
+        }
+    },
     SetOrder: (fullname, phone, address, city, note) => {
         $.ajax({
             data: { fullname, phone, address, city, note},
@@ -16,10 +24,6 @@ var Checkout = {
             success: function (res) {
                 console.log(res)
 
-                //$('#liveToast').toggleClass('show');
-                //setTimeout(() => {
-                //    $('#liveToast').removeClass('show');
-                //}, 5000)
             },
             error: function (err) {
                 console.log(err.responseText);

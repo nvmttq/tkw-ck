@@ -69,6 +69,7 @@ C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Microsoft.Owin.Security.Twitter.
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Newtonsoft.Json.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Owin.dll
+C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\PayPal.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.Helpers.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.Mvc.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.Optimization.dll
@@ -77,6 +78,7 @@ C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.WebPages.Deployment.d
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.WebPages.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.WebPages.Razor.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\WebGrease.dll
+C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\PayPal.xml
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.Helpers.xml
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.Mvc.xml
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\System.Web.Optimization.xml
@@ -101,10 +103,7 @@ C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Microsoft.Owin.Security.Twitter.
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.csproj.AssemblyReference.cache
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.csproj.CoreCompileInputs.cache
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.csproj.CopyComplete
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.dll
 C:\Users\MINH\Desktop\WebBanHang\WebBanHang\obj\Debug\WebBanHang.pdb
-C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\PayPal.dll
-C:\Users\MINH\Desktop\WebBanHang\WebBanHang\bin\PayPal.xml
