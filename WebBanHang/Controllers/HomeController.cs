@@ -12,9 +12,14 @@ namespace WebBanHang.Controllers
     {
         const int recordPerPage = 10;
         private WebBanHangEntities db = new WebBanHangEntities();
-        public ActionResult Index(int? CategoryId)
+        public ActionResult Index()
         {
-            ViewBag.ActivePage = 1;
+            var user = Session["user"] as User;
+            if(user != null)
+            {
+                ProductCart pc = ProductCart.GetProductCart(user.Username, db.Carts.ToList(), db.Products.ToList());
+                Session["cart"] = pc;
+            }
             return View();
         }
 
@@ -24,7 +29,7 @@ namespace WebBanHang.Controllers
         }
 
      
-        public ActionResult Search(int? pageCurrent, string categoryId = null,  string keyword = null, string sortby = null, string order = null, string fromPrice = null, string toPrice = null)
+        public ActionResult Search(int? page, string categoryId = null,  string keyword = null, string sortby = null, string order = null, string fromPrice = null, string toPrice = null)
         {
             var isAjax = Request.IsAjaxRequest();
             ViewBag.url = Request.Url.ToString();
@@ -82,9 +87,9 @@ namespace WebBanHang.Controllers
             var tmp = model;
             var pagesize = tmp.ToList().Count();
             ViewBag.TotalPage = pagesize / 10; if (pagesize % 10 != 0) ViewBag.TotalPage++;
-            ViewBag.ActivePage = (pageCurrent ?? 1);
+            ViewBag.ActivePage = (page ?? 1);
 
-            return PartialView("_ProductsPartial", model.ToList().Distinct().Skip(((pageCurrent ?? 1) - 1) * recordPerPage).Take(recordPerPage).ToList());
+            return PartialView("_ProductsPartial", model.ToList().Distinct().Skip(((page ?? 1) - 1) * recordPerPage).Take(recordPerPage).ToList());
         }
 
 
@@ -155,60 +160,8 @@ namespace WebBanHang.Controllers
             return PartialView(b);
         }
 
-        [HttpGet]
-        public ActionResult ViewPage(int CategoryId, int page)
-        {
-            string keyword = Request.QueryString["Page"];
-            ViewBag.Text = keyword;
-            var ProductsCurrent = from p in db.Products
-                                  join pc in db.ProductCategories on p.Id equals pc.ProductId
-                                  join c in db.Categories on pc.CategoryId equals c.Id
-                                  where c.Id == CategoryId
-                                  select p;
-
-            var pagesize = ProductsCurrent.Count();
-            ViewBag.TotalPage = pagesize / 10;
-            if (pagesize % 10 != 0) ViewBag.TotalPage++;
-            ViewBag.ActiveCategoryId = CategoryId;
-            ViewBag.PageCurrent = page;
-
-            var resultProducts = (ProductsCurrent.OrderBy(p => p.Name).Skip((page - 1) * 10).Take(10)).ToList();
-
-            return RedirectToAction("_ProductsPartial", new { CategoryId=CategoryId, page=page});
-            //return Json(new { code=200, activePage=page, activeCategory=CategoryId, data = resultProducts }, JsonRequestBehavior.AllowGet);
-        }
-
+     
  
-        public ActionResult SearchProducts(int? CategoryId, int? page)
-        {
-            string keyword = Request.QueryString["keyword"];
-            string tim_kiem_theo = Request.QueryString["tim_kiem_theo"];
-
-            var products = db.Products.ToList();
-            var z = from p in db.Products
-                    where p.Name.ToString().ToUpper().Contains(keyword.ToUpper())
-                    select p;
-
-            var pagesize = z.Count();
-            ViewBag.TotalPage = pagesize / 10;
-            if (pagesize % 10 != 0) ViewBag.TotalPage++;
-            ViewBag.ActiveCategoryId = CategoryId;
-            ViewBag.PageCurrent = 1;
-
-            if (tim_kiem_theo.ToUpper() == "DANH MỤC")
-            {
-                z = from p in db.Products
-                        join pc in db.ProductCategories
-                        on p.Id equals pc.ProductId
-                        join c in db.Categories
-                        on pc.CategoryId equals c.Id
-                        where c.Name.ToString().ToUpper().Contains(keyword.ToUpper())
-                        select p;
-
-            }
-            return View("Index", z.ToList());
-        }
-
         [HttpPost]
         public ActionResult FilterProduct(FormCollection f)
         {
@@ -229,49 +182,6 @@ namespace WebBanHang.Controllers
             return View("Index", products.ToList());
         }
 
-        
-        public ActionResult SortingProduct(string sortby)
-        {
-            var ProductsCurrent = (List<Product>)Session["ProductsCurrent"];
-
-            List<string> pp = new List<string>();
-            foreach(var item in ProductsCurrent)
-            {
-                pp.Add(item.Id.ToString());
-            }
-
-            if (sortby == "Name")
-            {
-                var products = (from p in db.Products
-                                where (pp.Any(pc => pc == p.Id.ToString())) == true
-                                select p).ToList().OrderBy(p => p.Name).Select(p => p).ToList();
-
-                return View("Index", products);
-            }
-            if(sortby == "NameDesc")
-            {
-                var products = (from p in db.Products
-                                where (pp.Any(pc => pc == p.Id.ToString())) == true
-                                select p).ToList().OrderByDescending(p => p.Name).Select(p => p).ToList();
-                return View("Index", products);
-            }
-            if(sortby == "Price")
-            {
-                var products = (from p in db.Products
-                                where (pp.Any(pc => pc == p.Id.ToString())) == true
-                                select p).ToList().OrderBy(p => p.Price).Select(p => p).ToList();
-
-                return View("Index", products);
-            }
-            if(sortby == "PriceDesc")
-            {
-                var products = (from p in db.Products
-                                where (pp.Any(pc => pc == p.Id.ToString())) == true
-                                select p).ToList().OrderByDescending(p => p.Price).Select(p => p).ToList();
-                return View("Index", products);
-            }
-            return View("Index", db.Products.ToList());
-        }
 
         public ActionResult _LoadProductPartial(int CategoryId) 
         {

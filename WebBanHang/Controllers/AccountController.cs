@@ -88,13 +88,17 @@ namespace WebBanHang.Controllers
                 var userChecked = db.Users.ToList();
                 if(userChecked.Any(u => u.Username == model.EmailOrUsername && u.Password == model.Password))
                 {
-                    var user1 = from u in db.Users
-                                where u.Username == model.EmailOrUsername && u.Password == model.Password
-                                select u;
+                    var user1 = (from u in db.Users
+                                 where u.Username == model.EmailOrUsername && u.Password == model.Password
+                                 select u).Single();
                    
-                    Session["user"] = user1.Single();
-              
-                        return RedirectToAction("Index", "Home");
+                        Session["user"] = user1;
+
+                    if (user1.RoleId == 100)
+                    {
+                        return RedirectToAction("Index", "Admin/Dashboard");
+                    }
+                    else return RedirectToAction("Index", "Home");
                     
                 }
                 throw new Exception("Sai tài khoản hoặc mật khẩu");

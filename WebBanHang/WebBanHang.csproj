@@ -172,6 +172,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductManagermentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserManagermentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -244,6 +248,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminUserManagerment.css" />
     <Content Include="Content\homepage.css" />
     <Content Include="Content\mdb.min.css" />
     <Content Include="Content\product.css" />
@@ -260,6 +265,15 @@
     <Content Include="Models\WebBanHangModel.edmx.diagram">
       <DependentUpon>WebBanHangModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_SidebarPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_NavbarPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ChangePassUserPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\UserManagerment\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\UserManagerment\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductManagerment\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Models\WebBanHangModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -335,6 +349,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+
+    <link href="~/Content/mdb.min.css" rel="stylesheet" />
+    <script src="~/Scripts/mdb.min.js"></script>
+
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/AdminUserManagerment.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        @Html.Partial("_SidebarPartial")
+        @Html.Partial("_NavbarPartial")
+    </header>
+    <main style="margin-top: 64px;">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </main>
+</body>
+</html>

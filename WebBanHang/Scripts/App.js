@@ -194,8 +194,6 @@ var App = {
             datatype: "json",
             success: function (res) {
 
-
-
                 window.history.pushState("", "", `/Home/Search?${urlParams.toString()}`);
 
                 $("#content-panel").empty();

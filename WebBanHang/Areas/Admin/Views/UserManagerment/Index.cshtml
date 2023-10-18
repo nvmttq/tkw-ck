@@ -1,0 +1,79 @@
+﻿
+@model List<WebBanHang.Models.User>
+@{
+    ViewBag.Title = "UserManagerment";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h1 class="h5 text-center py-5 mb-0">User management</h1>
+
+
+<div class="d-flex align-items-center justify-content-between">
+    <a href="/Admin/User/Add">ADD</a>
+    <div class="input-group" style="max-width: 50%;">
+        <div class="form-outline" style="border-bottom: 1px solid black;">
+            <input id="search-user" name="search-user" type="search" class="form-control" />
+            <label class="form-label" for="form1">Search</label>
+        </div>
+        <button type="button" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary me-1 mb-2">
+            <i class="fas fa-plus"></i> Tạo mới
+        </button>
+        <button type="button" class="btn btn-primary me-1 mb-2">
+            <i class="fas fa-users"></i> Tạo mới hàng loạt
+        </button>
+    </div>
+</div>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+        <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Họ và Tên</th>
+            <th>Email</th>
+            <th>Vai trò</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int stt = 0;}
+        @foreach (var user in Model)
+        {
+            stt++;
+            <tr>
+                <td>@stt</td>
+                <td>
+                    <a href="#">userid=@user.Username</a>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">@user.FullName</p>
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    <p class="text-muted mb-0">@user.RoleId</p>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                            title="Xóa" style="background-color: #ED5565;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                            title="Đổi mật khẩu" style="background-color: #F8AC59;">
+                        <i class="fas fa-key"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                            title="Chỉnh sửa">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
