@@ -11,6 +11,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Carts">
+      <EntityTypeMapping TypeName="WebBanHangModel.Cart">
+        <MappingFragment StoreEntitySet="Cart">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="WebBanHangModel.Category">
         <MappingFragment StoreEntitySet="Category">
@@ -24,6 +36,36 @@
         <MappingFragment StoreEntitySet="Coupon">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feedbacks">
+      <EntityTypeMapping TypeName="WebBanHangModel.Feedback">
+        <MappingFragment StoreEntitySet="Feedback">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="WebBanHangModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -66,6 +108,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProductListImages">
+      <EntityTypeMapping TypeName="WebBanHangModel.ProductListImage">
+        <MappingFragment StoreEntitySet="ProductListImage">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="LinkImage" ColumnName="LinkImage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Roles">
       <EntityTypeMapping TypeName="WebBanHangModel.Role">
         <MappingFragment StoreEntitySet="Role">
@@ -74,68 +125,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Orders">
-      <EntityTypeMapping TypeName="WebBanHangModel.Order">
-        <MappingFragment StoreEntitySet="Order">
-          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="Discount" ColumnName="Discount" />
-          <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="WebBanHangModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="WebBanHangModel.User">
         <MappingFragment StoreEntitySet="User">
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Username" ColumnName="Username" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Feedbacks">
-      <EntityTypeMapping TypeName="WebBanHangModel.Feedback">
-        <MappingFragment StoreEntitySet="Feedback">
-          <ScalarProperty Name="Image" ColumnName="Image" />
-          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductListImages">
-      <EntityTypeMapping TypeName="WebBanHangModel.ProductListImage">
-        <MappingFragment StoreEntitySet="ProductListImage">
-          <ScalarProperty Name="LinkImage" ColumnName="LinkImage" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Carts">
-      <EntityTypeMapping TypeName="WebBanHangModel.Cart">
-        <MappingFragment StoreEntitySet="Cart">
-          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

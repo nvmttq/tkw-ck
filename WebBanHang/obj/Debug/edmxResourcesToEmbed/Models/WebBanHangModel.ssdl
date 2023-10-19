@@ -78,16 +78,16 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="Discount" Type="int" Nullable="false" />
-    <Property Name="Image" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Discount" Type="int" />
+    <Property Name="Image" Type="varchar" MaxLength="250" />
     <Property Name="Rating" Type="int" />
     <Property Name="FreeShip" Type="bit" />
     <Property Name="Quantity" Type="int" />
     <Property Name="Hot" Type="bit" />
     <Property Name="Description" Type="ntext" />
-    <Property Name="ViewCount" Type="int" Nullable="false" />
+    <Property Name="ViewCount" Type="int" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="CreatedAt" Type="datetime" />
     <Property Name="UpdatedAt" Type="datetime" />
@@ -115,6 +115,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="Id" />
@@ -140,6 +150,7 @@
     <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductListImage" EntityType="Self.ProductListImage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

@@ -49,7 +49,7 @@ namespace WebBanHang.Controllers
             List<Cart> lc = new List<Cart>();
             foreach (var item in productCart)
             {
-                ViewBag.TotalPriceDiscount += CalcProductPrice((double)item.product.Price, item.product.Discount) * item.cart.Quantity;
+                ViewBag.TotalPriceDiscount += CalcProductPrice((double)item.product.Price, (int)item.product.Discount) * item.cart.Quantity;
                 ViewBag.TotalPrice += ((double)item.product.Price * (double)item.cart.Quantity);
                 lp.Add(item.product);
                 lc.Add(item.cart);

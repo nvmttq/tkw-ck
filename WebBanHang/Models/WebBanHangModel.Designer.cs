@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\MINH\Desktop\WebBanHang\WebBanHang\Models\WebBanHangModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\MINH\Desktop\tkw-ck\WebBanHang\Models\WebBanHangModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

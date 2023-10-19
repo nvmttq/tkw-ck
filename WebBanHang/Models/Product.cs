@@ -16,15 +16,15 @@ namespace WebBanHang.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Discount { get; set; }
+        public Nullable<decimal> Price { get; set; }
+        public Nullable<int> Discount { get; set; }
         public string Image { get; set; }
         public Nullable<int> Rating { get; set; }
         public Nullable<bool> FreeShip { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<bool> Hot { get; set; }
         public string Description { get; set; }
-        public int ViewCount { get; set; }
+        public Nullable<int> ViewCount { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }

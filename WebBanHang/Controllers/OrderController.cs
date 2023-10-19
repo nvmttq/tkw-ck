@@ -59,7 +59,7 @@ namespace WebBanHang.Controllers
             {
                 foreach (var item in productCart)
                 {
-                    double a = CalcProductPrice((double)item.product.Price, item.product.Discount) * (double)item.cart.Quantity;
+                    double a = CalcProductPrice((double)item.product.Price, (int)item.product.Discount) * (double)item.cart.Quantity;
                     ViewBag.TotalPriceDiscount += a;
 
                     ViewBag.TotalPrice += ((double)item.product.Price * (double)item.cart.Quantity);
@@ -85,7 +85,7 @@ namespace WebBanHang.Controllers
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.OrderId = order.Id;
                     orderDetail.ProductId = item.product.Id;
-                    orderDetail.Price = (decimal)CalcProductPrice((double)item.product.Price, item.product.Discount) * item.cart.Quantity;
+                    orderDetail.Price = (decimal)CalcProductPrice((double)item.product.Price, (int)item.product.Discount) * item.cart.Quantity;
                     orderDetail.Quantity = item.cart.Quantity;
                     db.OrderDetails.Add(orderDetail);
                     db.SaveChanges();

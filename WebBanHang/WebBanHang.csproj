@@ -226,6 +226,9 @@
       <DependentUpon>WebBanHangModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StoreFilterModel.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>WebBanHangModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>WebBanHangModel.tt</DependentUpon>
     </Compile>
@@ -256,15 +259,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <EntityDeploy Include="Models\WebBanHangModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WebBanHangModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Images\Icons\filter.png" />
     <Content Include="Images\Icons\nodata.png" />
-    <Content Include="Models\WebBanHangModel.edmx.diagram">
-      <DependentUpon>WebBanHangModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
@@ -274,6 +270,15 @@
     <Content Include="Areas\Admin\Views\UserManagerment\Add.cshtml" />
     <Content Include="Areas\Admin\Views\UserManagerment\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ProductManagerment\Index.cshtml" />
+    <EntityDeploy Include="Models\WebBanHangModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebBanHangModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WebBanHangModel.edmx.diagram">
+      <DependentUpon>WebBanHangModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Views\ProductManagerment\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductManagerment\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Models\WebBanHangModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
