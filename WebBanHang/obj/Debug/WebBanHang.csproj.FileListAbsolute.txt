@@ -213,8 +213,8 @@ C:\Users\MINH\Desktop\tkw-ck\WebBanHang\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\MINH\Desktop\tkw-ck\WebBanHang\obj\Debug\WebBanHang.csproj.AssemblyReference.cache
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\obj\Debug\WebBanHang.csproj.CoreCompileInputs.cache
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\obj\Debug\WebBanHang.csproj.CopyComplete
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\obj\Debug\WebBanHang.dll
 C:\Users\MINH\Desktop\tkw-ck\WebBanHang\obj\Debug\WebBanHang.pdb
+C:\Users\MINH\Desktop\tkw-ck\WebBanHang\obj\Debug\WebBanHang.csproj.AssemblyReference.cache

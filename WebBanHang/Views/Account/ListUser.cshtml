@@ -1,0 +1,11 @@
+﻿@model List<ApplicationIdentity>
+@{
+    ViewBag.Title = "ListUser";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@foreach(var u in Model)
+            {
+                <span>@u.</span>
+            }
+

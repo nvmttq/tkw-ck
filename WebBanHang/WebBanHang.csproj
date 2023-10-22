@@ -174,6 +174,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderManagermentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductManagermentController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagermentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -279,6 +280,8 @@
     </Content>
     <Content Include="Areas\Admin\Views\ProductManagerment\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ProductManagerment\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderManagerment\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderManagerment\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Models\WebBanHangModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -351,6 +354,7 @@
     <Content Include="Views\Order\SuccessView.cshtml" />
     <Content Include="Views\Order\FailureView.cshtml" />
     <Content Include="Views\Order\VnpayReturn.cshtml" />
+    <Content Include="Views\Account\ListUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

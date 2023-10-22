@@ -52,11 +52,11 @@ namespace WebBanHang.Models
         [Required]
         [Display(Name = "Email Or Username")]
 
-        public string EmailOrUsername = "admin000";
+        public string EmailOrUsername { get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password = "concun123@"; // admins
+        public string Password { get; set; } // admins
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }

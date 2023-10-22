@@ -19,6 +19,8 @@ namespace WebBanHang
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
+
+      
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie
@@ -58,11 +60,11 @@ namespace WebBanHang
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "388797356441-86i27q6cibc7eotv0g96r1qr8ueje5f2.apps.googleusercontent.com",
+                ClientSecret = "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",
+            });
         }
     }
 }

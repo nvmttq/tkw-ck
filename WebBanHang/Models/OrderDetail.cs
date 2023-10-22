@@ -18,5 +18,7 @@ namespace WebBanHang.Models
         public int ProductId { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<int> Quantity { get; set; }
+
+        public Product p { get; set; }
     }
 }

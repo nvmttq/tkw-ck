@@ -75,8 +75,8 @@
                                     @{
                                         if (p.Discount > 0)
                                         {
-                                            <h4 class="mb-1 me-1">@String.Format("{0:0,0 VNĐ}", p.Discount)</h4>
-                                            <span class="text-danger"><s>@String.Format("{0:0,0 VNĐ}", p.Price)</s></span>
+                                            <h4 class="mb-1 me-1">@String.Format("{0:0,0 VNĐ}", p.Price)</h4>
+                                            @*<span class="text-danger"><s>@String.Format("{0:0,0 VNĐ}", p.Price)</s></span>*@
                                         }
                                         else
                                         {
@@ -91,9 +91,9 @@
                                     { <h6></h6>}
                                 }*@
                                 <div class="d-flex flex-column mt-4">
-                                    <a class="btn btn-primary text-white" href="@Url.Action("Details", "Product", new { ProductId = p.Id })" type="button">Details</a>
+                                    <a class="btn btn-primary text-white" href="@Url.Action("Details", "Product", new { ProductId = p.Id })" type="button">Xem chi tiết</a>
                                     <button class="btn btn-secondary btn-sm mt-2 hover:grow" onclick="Cart.AddToCart(@p.Id,1)">
-                                        Add to cart
+                                        Thêm vào giỏ hàng
                                     </button>
                                 </div>
                             </div>

@@ -37,7 +37,7 @@
                 <span>@String.Format("{0:0,0 VNĐ}", Model.Discount)</span>
             </p>
 
-            <p style="font-size: 20px"><strong>Description</strong></p>
+            <p style="font-size: 20px"><strong>Mô tả</strong></p>
 
             <p>
                 @Model.Description
@@ -49,7 +49,7 @@
                     <input type="number" value="1" class="form-control" />
                 </div>
                 <a class="btn btn-primary ms-1" href="@Url.Action("AddToCart", "Cart", new { ProductId = Model.Id, returnUrl = Request.Url.ToString() })">
-                    Add to cart
+                    Thêm vào giỏ hàng
                     <i class="fas fa-shopping-cart ms-1"></i>
                 </a>
             </form>

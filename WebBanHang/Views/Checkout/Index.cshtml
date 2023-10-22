@@ -12,7 +12,7 @@
         @using (Html.BeginForm("SetOrder", "Order", FormMethod.Post, new { @class = "p-4" }))
         {
 
-            <h5 class="card-title mb-3">Shipping info</h5>
+            <h5 class="card-title mb-3">Thôn tin đặt hàng</h5>
             <div class="row">
                 <div class="col-6 mb-3">
                     <p class="mb-0">Họ tên người nhận</p>
@@ -130,7 +130,7 @@
                         <div class="">
                             <a href="#" class="nav-link">@item.Name</a>
                             @{ 
-                                double calc = ((double)item.Price * (double)Model.cart[id].Quantity) / 25000.0;
+                                double calc = ((double)item.Price * (double)Model.cart[id].Quantity) ;
                             }
                         <div class="price text-muted">Total: @String.Format("{0:0,0 VNĐ}", calc)</div>
                         </div>

@@ -9,20 +9,24 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebBanHang.Models;
+using WebBanHang;
+using System.Collections.Generic;
+using System.Data.Entity;
 
-namespace WebBanHang.Controllers
+namespace account.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private WebBanHangEntities db = new WebBanHangEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private WebBanHangEntities db = new WebBanHangEntities();
+
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +38,9 @@ namespace WebBanHang.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -52,7 +56,6 @@ namespace WebBanHang.Controllers
             }
         }
 
-        //
         [AllowAnonymous]
         public ActionResult Logout()
         {
@@ -61,13 +64,13 @@ namespace WebBanHang.Controllers
             Console.WriteLine(ViewBag.z);
             return RedirectToAction("Login");
         }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
-            
-            ViewBag.ReturnUrl = TempData["returnUrl"];
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -76,56 +79,60 @@ namespace WebBanHang.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            
-            try
+
+            var checkLogin = model.EmailOrUsername.Contains('@');
+            if (!checkLogin)
             {
                 var userChecked = db.Users.ToList();
-                if(userChecked.Any(u => u.Username == model.EmailOrUsername && u.Password == model.Password))
+                if (userChecked.Any(u => u.Username == model.EmailOrUsername && u.Password == model.Password))
                 {
                     var user1 = (from u in db.Users
                                  where u.Username == model.EmailOrUsername && u.Password == model.Password
                                  select u).Single();
-                   
-                        Session["user"] = user1;
+
+                    Session["user"] = user1;
 
                     if (user1.RoleId == 100)
                     {
                         return RedirectToAction("Index", "Admin/Dashboard");
                     }
                     else return RedirectToAction("Index", "Home");
-                    
                 }
-                throw new Exception("Sai tài khoản hoặc mật khẩu");
-
-            } catch(Exception err)
-            {
-                ModelState.AddModelError("", err.Message);
+                ModelState.AddModelError("", "Sai tài khoản hoặc mật khẩu");
                 return View(model);
             }
-
-            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            //var result = await SignInManager.PasswordSignInAsync(model.EmailOrUsername, model.Password, model.RememberMe, shouldLockout: false);
-            //switch (result)
-            //{
-            //    case SignInStatus.Success:
-            //        return RedirectToLocal(returnUrl);
-            //    case SignInStatus.LockedOut:
-            //        return View("Lockout");
-            //    case SignInStatus.RequiresVerification:
-            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-            //    case SignInStatus.Failure:
-            //    default:
-            //        ModelState.AddModelError("", "Invalid login attempt.");
-            //        return View(model);
-            //}
+            var result = await SignInManager.PasswordSignInAsync(model.EmailOrUsername, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    var user1 = (from u in db.Users
+                                 where u.Email == model.EmailOrUsername && u.Password == model.Password
+                                 select u).Single();
+
+                    Session["user"] = user1;
+
+                    if (user1.RoleId == 100)
+                    {
+                        return RedirectToAction("Index", "Admin/Dashboard");
+                    }
+                    else return RedirectToAction("Index", "Home");
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Sai tài khoản hoặc mật khẩu");
+                    return View(model);
+            }
         }
 
         //
@@ -157,7 +164,7 @@ namespace WebBanHang.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -186,7 +193,40 @@ namespace WebBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var exists = (from u in db.Users
+                                  where u.Username == model.Username || u.Email == model.Email
+                                  select u).FirstOrDefault();
+                    if (exists != null)
+                    {
+                        ViewBag.ExistsAcc = "Tài khoản đã tồn tại";
+                        return View(model);
+                    }
+                    User newUser = new User();
+
+                    newUser.Email = model.Email;
+                    newUser.FullName = model.Fullname;
+                    newUser.Password = model.Password;
+                    newUser.Username = model.Username;
+                    db.Users.Add(newUser);
+                    db.SaveChanges();
+                    TempData["RegisterSuccess"] = "Đăng ký thành công";
+                    return RedirectToAction("Login");
+                }
+                AddErrors(result);
+            }
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -317,6 +357,29 @@ namespace WebBanHang.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
+
+        public ActionResult ListUser()
+        {
+            ApplicationDbContext cno = new ApplicationDbContext();
+            List<ApplicationUser> user = cno.Users.ToList();
+            return View(user);
+        }
+        [AllowAnonymous]
+        public async Task<ActionResult> Delete()
+        {
+
+            ApplicationDbContext cno = new ApplicationDbContext();
+            List<ApplicationUser> user = cno.Users.ToList();
+            foreach (var u in user)
+            {
+                cno.Users.Remove(u);
+
+            }
+            cno.SaveChanges();
+
+
+            return RedirectToAction("Login");
+        }
         //
         // POST: /Account/SendCode
         [HttpPost]
@@ -347,12 +410,16 @@ namespace WebBanHang.Controllers
             {
                 return RedirectToAction("Login");
             }
-
+          
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = (from u in db.Users
+                                where u.Email == loginInfo.Email
+                                select u).FirstOrDefault();
+                    Session["user"] = user;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -376,6 +443,10 @@ namespace WebBanHang.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                var user = (from u in db.Users
+                            where u.Username == model.Email
+                            select u).FirstOrDefault();
+                Session["user"] = user;
                 return RedirectToAction("Index", "Manage");
             }
 
@@ -387,13 +458,27 @@ namespace WebBanHang.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
+
+                        User create_user_db = new User();
+                        create_user_db.Email = info.Email;
+                        create_user_db.FullName = info.DefaultUserName;
+                        create_user_db.Address = "Streert steer 320/9";
+                        create_user_db.Password = "authgoogle";
+                        create_user_db.RoleId = 2;
+                        create_user_db.Username = info.Email;
+                        db.Users.Add(create_user_db);
+                        db.SaveChanges();
+                        Session["user"] = create_user_db;
+
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
