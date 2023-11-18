@@ -22,7 +22,6 @@ namespace WebBanHang.Models
         }
         public void GetTotalPrice()
         {
-            object a;
             ProductCart pc = this;
             double total_price = 0, totalPriceDiscount = 0, totalDiscount = 0;
             for(int i = 0; i < pc.product.Count(); i++)

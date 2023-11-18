@@ -84,6 +84,15 @@ namespace WebBanHang.Controllers
             //if (!String.IsNullOrEmpty(keyword)) products = products.Where(p => p.Name.ToString().ToUpper().Contains(keyword.ToUpper()));
 
 
+            foreach (Product p in model)
+            {
+
+                List<Category> categories = (from c in db.Categories
+                                             join pc in db.ProductCategories on c.Id equals pc.CategoryId
+                                             where pc.ProductId == p.Id
+                                             select c).ToList();
+                p.categories = categories;
+            }
             var tmp = model;
             var pagesize = tmp.ToList().Count();
             ViewBag.TotalPage = pagesize / 10; if (pagesize % 10 != 0) ViewBag.TotalPage++;
@@ -97,28 +106,28 @@ namespace WebBanHang.Controllers
         {
 
             ViewBag.ActivePage = 1;
-            if (CategoryId == null)
-            {
-                var tmp1 = db.Products;
-                var pagesize1 = tmp1.ToList().Count();
-                ViewBag.ActiveCategoryId = CategoryId;
-                ViewBag.TotalPage = pagesize1 / 10;
-                if (pagesize1 % 10 != 0) ViewBag.TotalPage++;
-                return PartialView(db.Products.Take(10).ToList());
-            }
             var defaultListProduct = (from p in db.Products
                                       join pc in db.ProductCategories on p.Id equals pc.ProductId
                                       join c in db.Categories on pc.CategoryId equals c.Id
-                                      where c.Id == CategoryId
+                                      where c.Id == (CategoryId == null ? c.Id : CategoryId)
                                       select p).ToList().Distinct();
-        
+            foreach(Product p in defaultListProduct)
+            {
+
+                List<Category> categories = (from c in db.Categories
+                                  join pc in db.ProductCategories on c.Id equals pc.CategoryId
+                                  where pc.ProductId == p.Id
+                                  select c).ToList();
+                p.categories = categories;
+            }
+
             var tmp = defaultListProduct;
             var pagesize = tmp.ToList().Count();
             ViewBag.ActiveCategoryId = CategoryId;
             ViewBag.TotalPage = pagesize / 10;
             if (pagesize % 10 != 0) ViewBag.TotalPage++;
 
-            return PartialView("_ProductsPartial", (defaultListProduct.OrderBy(p=>p.Name).Skip((page - 1) * 10).Take(10)));
+            return PartialView("_ProductsPartial", (defaultListProduct.ToList().OrderBy(p=>p.Name).Skip((page - 1) * 10).Take(10)));
         }
           
         public ActionResult _FilterProductPartial()
@@ -190,6 +199,16 @@ namespace WebBanHang.Controllers
                                      join c in db.Categories on pc.CategoryId equals c.Id
                                      where c.Id == CategoryId
                                      select p;
+            
+            foreach(Product p in defaultListProduct)
+            {
+                var categories = (from c in db.Categories
+                                  join pc in db.ProductCategories on c.Id equals pc.CategoryId
+                                  where pc.ProductId == p.Id
+                                  select c).ToList();
+                p.categories = categories;
+            }
+
             return PartialView(defaultListProduct);
         }
 

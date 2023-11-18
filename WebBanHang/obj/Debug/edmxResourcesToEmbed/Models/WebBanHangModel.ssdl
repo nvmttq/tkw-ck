@@ -34,6 +34,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="Discount" Type="int" />
+    <Property Name="Code" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Feedback">
     <Key>

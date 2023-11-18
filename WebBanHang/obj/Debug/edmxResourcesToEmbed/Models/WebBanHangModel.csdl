@@ -34,6 +34,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ProductId" Type="Int32" Nullable="false" />
     <Property Name="Discount" Type="Int32" />
+    <Property Name="Code" Type="String" />
   </EntityType>
   <EntityType Name="Feedback">
     <Key>

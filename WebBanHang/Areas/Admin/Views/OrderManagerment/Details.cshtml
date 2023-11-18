@@ -6,7 +6,7 @@
 }
 
 
-<h1 class="h5 text-center py-5 mb-0">OrderDetails Management</h1>
+<h1 class="h5 text-center py-5 mb-0">Chi tiết đơn hàng @Html.Raw("DH"+Model[0].OrderId)</h1>
 
 <div class="mb-3">
     <i class="fa fa-arrow-left"></i>
@@ -25,9 +25,6 @@
     <div>
         <button type="button" class="btn btn-primary me-1 mb-2">
             <i class="fas fa-plus"></i> Tạo mới
-        </button>
-        <button type="button" class="btn btn-primary me-1 mb-2">
-            <i class="fas fa-users"></i> Tạo mới hàng loạt
         </button>
     </div>
 </div>

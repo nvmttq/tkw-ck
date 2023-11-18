@@ -1,5 +1,5 @@
 ﻿
-@model List<WebBanHang.Models.Product>
+@model IEnumerable<WebBanHang.Models.Product>
 
 @{
     Session["ProductsCurrent"] = Model;
@@ -53,18 +53,13 @@
                                     <span>@p.Rating</span>
                                 </div>
                                 <div class="mt-1 mb-0 text-muted small">
-                                    <span>100% cotton</span>
-                                    <span class="text-primary"> • </span>
-                                    <span>Light weight</span>
-                                    <span class="text-primary"> • </span>
-                                    <span>Best finish<br /></span>
-                                </div>
-                                <div class="mb-2 text-muted small">
-                                    <span>Unique design</span>
-                                    <span class="text-primary"> • </span>
-                                    <span>For men</span>
-                                    <span class="text-primary"> • </span>
-                                    <span>Casual<br /></span>
+                                    @foreach (var c in p.categories)
+                                    {
+                                    
+                                        <span>@c.Name</span>
+                                        <span class="text-primary"> • </span>
+
+                                    }
                                 </div>
                                 <p class="text-truncate mb-4 mb-md-0">
                                     @p.Description
@@ -85,11 +80,11 @@
                                     }
                                 </div>
                                 @*@{
-                                    if (p.FreeShip == true)
-                                    { <h6 class="text-success">Miễn phí giao hàng</h6>}
-                                    else
-                                    { <h6></h6>}
-                                }*@
+                                        if (p.FreeShip == true)
+                                        { <h6 class="text-success">Miễn phí giao hàng</h6>}
+                                        else
+                                        { <h6></h6>}
+                                    }*@
                                 <div class="d-flex flex-column mt-4">
                                     <a class="btn btn-primary text-white" href="@Url.Action("Details", "Product", new { ProductId = p.Id })" type="button">Xem chi tiết</a>
                                     <button class="btn btn-secondary btn-sm mt-2 hover:grow" onclick="Cart.AddToCart(@p.Id,1)">

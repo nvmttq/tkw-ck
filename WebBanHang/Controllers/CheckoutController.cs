@@ -21,6 +21,67 @@ namespace WebBanHang.Controllers
         {
             return price - (price * ((double)discount / 100.0));
         }
+
+        [HttpPost]
+        public PartialViewResult AddCoupon(string code, Checkout ck, List<Coupon> cps)
+        {
+            ProductCart pc = ck.pc;
+
+            List<Product> pros = pc.product.ToList();
+        
+            var coupon = (from cp in db.Coupons
+                          //join p in pc.product on cp.ProductId equals p.Id // wrong pc product
+                          where cp.Code == code
+                          select cp).SingleOrDefault();
+            Coupon ret_coupon = null;
+            foreach(Product p in pros)
+            {
+                if(coupon != null && p.Id == coupon.ProductId)
+                {
+                    ret_coupon = coupon;
+                }
+            }
+            if(ret_coupon == null)
+            {
+                ViewBag.ThongBao = "Bạn không có sản phẩm tương thích với mã giảm giá này";
+                return PartialView("_CheckoutPartial", ck);
+                //return Json( new { msg="Bạn không có sản phẩm tương thích với mã giảm giá này"}, JsonRequestBehavior.AllowGet);
+            }
+            var product = (from p in db.Products
+                           where p.Id == coupon.ProductId
+                           select p).SingleOrDefault();
+
+            coupon.p = product;
+            ck.coupons.Add(coupon);
+            ck.calc_total();
+            ViewBag.ThongBao = null;
+            return PartialView("_CheckoutPartial", ck);
+            //return Json(new { msg = "Tuyet voi", data=ck}, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public PartialViewResult RemoveCoupon(string code, Checkout ck)
+        {
+            ProductCart pc = ck.pc;
+
+            List<Product> pros = pc.product.ToList();
+            List<Coupon> coupons = ck.coupons;
+
+            for(int i = 0; i < coupons.Count(); i++)
+            {
+                if (coupons[i] == null) continue;
+                if(coupons[i].Code == code)
+                {
+                    coupons.RemoveAt(i);
+                    break;
+                }
+            }
+            ck.coupons = coupons;
+            ck.calc_total();
+            return PartialView("_CheckoutPartial", ck);
+            //return Json(new { msg = "Tuyet voi", data=ck}, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Checkout
         public ActionResult Index()
         {
@@ -34,7 +95,16 @@ namespace WebBanHang.Controllers
 
             var carts = db.Carts.ToList();
             var products = db.Products.ToList();
-            ProductCart pc = new ProductCart();
+            Checkout ck = new Checkout();
+            ck.pc = (ProductCart)Session["ProductSelected"];
+
+
+            if (ck.pc == null)
+            {
+                return RedirectToAction("Index", "Cart", new { isSelectedBeforeCheckout = 1 });
+            }
+
+            ViewBag.isSelectedBeforeCheckout = null;
             var productCart = (from p in db.Products
                                join crt in db.Carts
                                on p.Id equals crt.ProductId
@@ -45,20 +115,16 @@ namespace WebBanHang.Controllers
                                    product = p
 
                                }).ToList();
-            List<Product> lp = new List<Product>();
-            List<Cart> lc = new List<Cart>();
-            foreach (var item in productCart)
-            {
-                ViewBag.TotalPriceDiscount += CalcProductPrice((double)item.product.Price, (int)item.product.Discount) * item.cart.Quantity;
-                ViewBag.TotalPrice += ((double)item.product.Price * (double)item.cart.Quantity);
-                lp.Add(item.product);
-                lc.Add(item.cart);
-            }
-            
-            ViewBag.Discount = ViewBag.TotalPrice - ViewBag.TotalPriceDiscount;
-            pc.product = lp;
-            pc.cart = lc;
-            return View(pc);
+            Coupon cp = new Coupon();
+            cp.Code = "???";
+            cp.Id = 0;
+            cp.Discount = 0;
+            cp.ProductId = 0;
+            ck.coupons = new List<Coupon>();
+            ck.coupons.Add(cp);
+            ck.calc_total();
+
+            return View(ck);
         }
 
 

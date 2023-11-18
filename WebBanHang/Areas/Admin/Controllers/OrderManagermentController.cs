@@ -22,7 +22,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                                 select od).ToList();
             foreach(var od in orderDetails)
             {
-                var product = (from p in db.Products
+                Product product = (from p in db.Products
                                where p.Id == od.ProductId
                                select p).FirstOrDefault();
                 od.p = product;

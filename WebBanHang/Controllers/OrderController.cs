@@ -34,7 +34,8 @@ namespace WebBanHang.Controllers
             string address = f["address-shipping"];
             string city = f["city-shipping"];
             string note = f["note-shipping"];
-            int TypePaymentVN = int.Parse(f["TypePaymentVN"]);
+            string email = f["email-shipping"];
+            int TypePaymentVN = int.Parse((f["TypePaymentVN"] == null ? "500" : f["TypePaymentVN"]));
 
             var user = (User)Session["user"];
 
@@ -99,6 +100,54 @@ namespace WebBanHang.Controllers
                 try
                 {
                      url = UrlPayment(TypePaymentVN, order.Id.ToString(), tot_price);
+                     if(String.IsNullOrEmpty(url))
+                        {
+                            return View("COD_Return");
+                        }
+
+                    string contentCustomer = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/sendOrtherSuccess.html"));
+
+                    //send mail cho khach hang 
+                    var strSanPham = "";
+                    var thanhtien = decimal.Zero;
+                    var TongTien = decimal.Zero;
+                    var oderDetails = (from od in db.OrderDetails
+                                       where od.OrderId == order.Id
+                                       select od);
+                    foreach (var od in oderDetails)
+                    {
+                        Product product = (from p in db.Products
+                                           where p.Id == od.ProductId
+                                           select p).SingleOrDefault();
+                        od.p = product;
+                    }
+                    foreach (var sp in oderDetails)
+                    {
+                        if (sp.p == null) continue;
+                        strSanPham += "<tr>";
+                        strSanPham += "<td>" + sp.p.Name + "</td>";
+                        strSanPham += "<td>" + sp.Quantity + "</td>";
+                        strSanPham += "<td>" + WebBanHang.Common.Common.FormatNumber(sp.p.Price * sp.Quantity, 0) + "</td>";
+                        strSanPham += "</tr>";
+                        thanhtien += ((decimal)sp.p.Price * (decimal)sp.Quantity);
+                    }
+                    TongTien = thanhtien;
+
+
+                    contentCustomer = contentCustomer.Replace("{{MaDon}}", "DH" + order.Id.ToString());
+                    contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
+                    contentCustomer = contentCustomer.Replace("{{SanPham}}", strSanPham);
+                    contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", order.FullName);
+                    contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
+                    contentCustomer = contentCustomer.Replace("{{Email}}", email); // order.Email
+                    contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
+
+                    contentCustomer = contentCustomer.Replace("{{ThanhTien}}", WebBanHang.Common.Common.FormatNumber(thanhtien, 0));
+
+                    contentCustomer = contentCustomer.Replace("{{TongTien}}", WebBanHang.Common.Common.FormatNumber(TongTien, 0));
+
+                    WebBanHang.Common.Common.SendMail("ShopOnline", "Đơn Hàng #" + order.Id, contentCustomer.ToString(), email);
+
                 } catch(Exception ex)
                 {
                     return View("FailureView");
@@ -109,7 +158,10 @@ namespace WebBanHang.Controllers
                 return View("FailureView");
 
             }
-
+            if (String.IsNullOrEmpty(url))
+            {
+                return View("COD_Return");
+            }
             return Redirect(url);
 
 
@@ -148,6 +200,9 @@ namespace WebBanHang.Controllers
             else if (TypePaymentVN == 3)
             {
                 vnpay.AddRequestData("vnp_BankCode", "INTCARD");
+            } else if(TypePaymentVN == 500)
+            {
+                return null;
             }
 
             vnpay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -169,6 +224,11 @@ namespace WebBanHang.Controllers
         }
         #endregion
 
+
+        public ActionResult COD_Return()
+        {
+            return View();
+        }
         public ActionResult VnpayReturn()
         {
             if (Request.QueryString.Count > 0)
@@ -204,12 +264,13 @@ namespace WebBanHang.Controllers
                         {
                             itemOrder.Status = false;//đã thanh toán
                             db.Orders.Attach(itemOrder);
-                            db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
+                            db.Entry(itemOrder).State =         System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }
                         //Thanh toan thanh cong
                         ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
                         //log.InfoFormat("Thanh toan thanh cong, OrderId={0}, VNPAY TranId={1}", orderId, vnpayTranId);
+                        
                     }
                     else
                     {

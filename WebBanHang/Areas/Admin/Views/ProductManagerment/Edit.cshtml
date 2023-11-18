@@ -1,23 +1,15 @@
-﻿@model WebBanHang.Models.ProductCategory
+﻿@model WebBanHang.Models.Product
 
 @{
-    ViewBag.Title = "Edit Product";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-    var p = Model.product;
- 
 }
 
-<style>
-    .form-group {
-        margin-top: 10px;
-    }
-</style>
 
-@using (Html.BeginForm("Edit", "ProductManagerment", new {productId = 4}, FormMethod.Post, new { @class="form py-3"}))
-{ 
-    <div></div>
+@using (Html.BeginForm("Edit", "ProductManagerment", FormMethod.Post, new { @class = "form py-3 d-flex flex-column gap-3" }))
+{
 
-    <div class="form-horizontal">
+        @Html.AntiForgeryToken()
         <h2>Chỉnh sửa sản phẩm</h2>
 
         <hr />
@@ -25,62 +17,95 @@
             <i class="fa fa-arrow-left"></i>
             @Html.ActionLink("Quay trở lại danh sách", "Index")
         </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            <label class="form-label" for="ProductName">Tên sản phẩm</label>
-            <input type="text" id="ProductName" name="ProductName" value="@Model.product.Name" class="form-control" />
 
+            <label class="control-label col-md-2">Tên sản phẩm</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="ProductPrice">Giá sản phẩm </label>
-            <input type="text" id="ProductPrice" name="ProductPrice" value="@Model.product.Price" class="form-control" />
-
+            <label class="control-label col-md-2">Giá sản phẩm</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="ProductImage" class="form-label">Chọn hình ảnh</label>
-            <input class="form-control" type="file" id="ProductImage" name="ProductImage" value="@Model.product.Image" multiple />
+            <label class="control-label col-md-2">Giảm giá</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+            </div>
         </div>
 
+        @*<div class="form-group">
+            <label class="control-label col-md-2">Tên sản phẩm</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
         <div class="form-group">
-            <label for="ProductCategories" class="form-label">Chọn danh mục sản phẩm</label>
-            <select class="select form-control" id="ProductCategories" name="ProductCategories">
-                @foreach (var c in Model.categories)
-                {
-                    if (c.Id == Model.CategoryId)
+            <div class="btn-group dropend">
+                <div class="btn btn-primary dropdown-toggle"
+                     role="button"
+                     id="dropdownMenuLink"
+                     data-mdb-toggle="dropdown"
+                     aria-expanded="false">
+                    Chọn danh mục sản phẩm
+                </div>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="max-height: 200px; overflow-y: scroll;">
+                    @{ var id = 0;}
+                    @foreach (var c in Model.CategorySelections)
                     {
-                        <option value="@c.Id" selected>@c.Name</option>
+                    <li class="d-flex gap-2 px-3 py-2" style="width: max-content;">
+                        @Html.HiddenFor(model => model.CategorySelections[id].Id)
+                        @Html.HiddenFor(model => model.CategorySelections[id].Name)
+                        @Html.DisplayFor(model => model.CategorySelections[id].Name)
+                        @Html.CheckBoxFor(model => model.CategorySelections[id].IsSelected)
+                    </li>
+                        id++;
                     }
-                    else
-                    {
-                        <option value="@c.Id">@c.Name</option>
-                    }
-                }
-            </select>
+                </ul>
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="ProductQuantity">Số lượng</label>
-            <input type="number" id="ProductQuantity" name="ProductQuantity" value="@Model.product.Quantity" class="form-control" />
-
+            <label class="control-label col-md-2">Số lượng sản phẩm</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="ProductDescription">Mô tả sản phẩm </label>
-            <input type="text" id="ProductDescription" name="ProductDescription" value="@Model.product.Description" class="form-control" />
-
+            <label class="control-label col-md-2">Mô tả sản phẩm</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "d-block form-control w-100 px-3 py-2" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
         </div>
 
 
 
         <div class="form-group mt-3">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu" class="btn btn-primary" />
+            <div class="col-md-offset-2 col-md-10 d-flex gap-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
                 <a href="@Url.Action("Index", "ProductManagerment")" class="btn">Hủy</a>
             </div>
         </div>
-    </div>
 }
+<div class="pb-3">
+    <i class="fa fa-arrow-left"></i>
 
-
+    @Html.ActionLink("Quay trở lại danh sách", "Index")
+</div>

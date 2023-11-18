@@ -1,0 +1,140 @@
+﻿@model WebBanHang.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit</h2>
+
+@*@using (Html.BeginForm("Edit", "ProductManagerment", new { productId = Model.Id }, FormMethod.Post, new { @class = "form py-3" })
+    {
+
+        @Html.AntiForgeryToken()*@
+<div class="py-3">
+    <div class="form-horizontal">
+        <h2>Chỉnh sửa sản phẩm</h2>
+
+        <hr />
+        <div>
+            <i class="fa fa-arrow-left"></i>
+            @Html.ActionLink("Quay trở lại danh sách", "Index")
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            <script>
+                function SelectChip(e) {
+
+
+                    var chipId = e.target.value;
+                    var chipName = e.target.querySelector(`option[value=${chipId}]`).textContent;
+
+                    var exists = false;
+                    document.querySelectorAll(`.chips .chip`).forEach(n => {
+                        if (n.id === chipId) {
+                            exists = true;
+
+                        }
+                    });
+
+                    if (exists) {
+                        alert("Danh mục này đã được thêm vào  !");
+                        return;
+                    }
+                    console.log(chipId, chipName)
+                    var chip = `<div class="chip d-flex align-items-center justify-content-center px-2 py-1 gap-2 ms-2 text-muted" id="chip${chipId}" style="width: max-content; border: 1px solid grey; border-radius: 75px;">
+                                                            <span>${chipName}</span>
+                                                            <i class="fa fa-times" style="cursor: pointer;"></i>
+                                                        </div>`
+                    var chips = document.querySelector(`.chips`);
+                    chips.insertAdjacentHTML('beforeend', chip);
+                    console.log(chip)
+                }
+            </script>
+            <label for="ProductCategories" class="form-label">Chọn danh mục sản phẩm</label>
+            <select class="select form-control" id="ProductCategories" name="ProductCategories" onchange="SelectChip(event)">
+                @foreach (var c in Model.SelectListCategories)
+                {
+                    <option value="@Html.Raw("chip"+c.Id)" selected>@c.Name</option>
+                }
+            </select>
+        </div>
+
+
+        <div class="chips w-100 d-flex gap-2 mt-3">
+            @foreach (var pc in Model.categories)
+            {
+                <div class="chip d-flex align-items-center justify-content-center px-2 py-1 gap-2 ms-2 text-muted" id="@Html.Raw("chip"+pc.Id)" style="width: max-content; border: 1px solid grey; border-radius: 75px;">
+                    <span>@pc.Name</span>
+                    <i class="fa fa-times" style="cursor: pointer;"></i>
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                @{ var p = Model}
+                <button onclick='adminProduct.EditPro(@Html.Raw(Json.Encode(p)))' class="btn btn-primary">Lưu</button>
+                <a href="@Url.Action("Index", "ProductManagerment")" class="btn">Hủy</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <i class="fa fa-arrow-left"></i>
+
+    @Html.ActionLink("Quay trở lại danh sách", "Index")
+</div>

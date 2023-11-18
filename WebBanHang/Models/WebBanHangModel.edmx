@@ -39,6 +39,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="Discount" Type="int" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -196,6 +197,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="Discount" Type="Int32" />
+          <Property Name="Code" Type="String" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -354,6 +356,7 @@
           <EntitySetMapping Name="Coupons">
             <EntityTypeMapping TypeName="WebBanHangModel.Coupon">
               <MappingFragment StoreEntitySet="Coupon">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />

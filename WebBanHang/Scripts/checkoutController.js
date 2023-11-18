@@ -31,4 +31,58 @@ var Checkout = {
             }
         });
     }
+    ,
+    AddCoupon: (code, ck) => {
+        console.log(code,ck);
+        $.ajax({
+            data: { code, ck, cps: ck.coupons},
+            type: "post",
+            url: `/Checkout/AddCoupon`,
+            datatype: "json",
+            cache: false,
+            success: function (res) {
+                console.log(res)
+                
+                if (!res) {
+                    alert("Mã không áp dụng cho các sản phẩm trong giỏ hàng !");
+                    return;
+                }
+                else {
+                    $("#checkout-sum").html(res);
+                    console.log(res);
+                    //$('#checkout-sum').append(res);
+                }
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                alert("CO LOI XAY RA");
+            }
+        });
+    },
+    RemoveCoupon: (code, ck) => {
+        console.log(ck);
+        $.ajax({
+            data: { code, ck },
+            type: "post",
+            url: `/Checkout/RemoveCoupon`,
+            datatype: "json",
+            cache: false,
+            success: function (res) {
+                console.log(res)
+                if (!res) {
+                    alert("Mã không áp dụng cho các sản phẩm trong giỏ hàng !");
+                    return;
+                }
+                else {
+                    $("#checkout-sum").html(res);
+                    console.log(res);
+                    //$('#checkout-sum').append(res);
+                }
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                alert("CO LOI XAY RA");
+            }
+        });
+    }
 }

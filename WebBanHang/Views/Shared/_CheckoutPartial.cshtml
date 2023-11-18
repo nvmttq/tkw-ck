@@ -1,0 +1,99 @@
+﻿
+@using WebBanHang.Models;
+@model Checkout
+
+
+@if(ViewBag.ThongBao != null)
+{
+    <script>
+        alert("Bạn không có sản phẩm tương thích với mã giảm giá này");
+    </script>
+}
+<div class="ms-lg-4 mt-4 mt-lg-0" style="width: 100%;">
+    <h6 class="mb-3">Tổng</h6>
+    <div class="d-flex justify-content-between">
+        <p class="mb-2">Tổng:</p>
+        <p class="mb-2">@String.Format("{0:0,0 VNĐ}", Model.total)</p>
+    </div>
+    <div class="d-flex justify-content-between">
+        <p class="mb-2">Đã giảm:</p>
+        <p class="mb-2 text-danger">@String.Format("{0:0,0 VNĐ}", Model.discount)</p>
+    </div>
+    @*<div class="d-flex justify-content-between">
+            <p class="mb-2">Shipping cost:</p>
+            <p class="mb-2">+ $14.00</p>
+        </div>*@
+    <hr />
+    <div class="d-flex justify-content-between">
+        <p class="mb-2">Tiền phải trả:</p>
+        <p class="mb-2 fw-bold">@String.Format("{0:0,0 VNĐ}", Model.total - Model.discount)</p>
+    </div>
+
+    <div class="input-group mt-3 mb-4">
+        <input type="text" class="form-control border" id="code-coupon" name="code-coupon" placeholder="Nhập mã" />
+        <button class="btn btn-light text-primary border" onclick='Checkout.AddCoupon(document.getElementById("code-coupon").value, @Html.Raw(Json.Encode(Model)))'>Nhập</button>
+
+    </div>
+    @{
+        List<Coupon> coupons = Model.coupons;
+    }
+<table id="coupon-selected" class="table">
+    <tr>
+        <th>Mã</th>
+        <th>% giảm</th>
+        <th>Sản phẩm giảm</th>
+        <th></th>
+    </tr>
+    @*Name coupon | % | remove*@
+    @if (coupons == null || (coupons != null && coupons.Count() == 1 && coupons[0].Id == 0))
+    {
+        <caption class="text-center">CHƯA ÁP DỤNG MÃ NÀO</caption>
+    }
+    else
+    {
+        foreach (var cp in coupons)
+        {
+            if (cp == null || cp.Id == 0)
+            {
+                continue;
+            }
+            <tr class="mt-2 text-center">
+                <td class="text-break">@cp.Code</td>
+                <td>@cp.Discount</td>
+                <td>@cp.p.Name</td>
+                <td>
+                    <a onclick='Checkout.RemoveCoupon("@Html.Raw(cp.Code)", @Html.Raw(Json.Encode(Model)))' class="text-danger" style="cursor: pointer;">Xóa</a>
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+    <hr />
+    <h6 class="text-dark my-4">Sản phẩm đã chọn</h6>
+
+
+    @{
+        var id = 0;
+        foreach (var item in Model.pc.product)
+        {
+            <div class="d-flex align-items-center mb-4">
+                <div class="me-3 position-relative">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
+                        @Model.pc.cart[id].Quantity
+                    </span>
+                    <img src="@item.Image" style="height: 96px; width: 96px;" class="img-sm rounded border" />
+                </div>
+                <div class="">
+                    <a href="#" class="nav-link">@item.Name</a>
+                    @{
+                        double calc = ((double)item.Price * (double)Model.pc.cart[id].Quantity);
+                    }
+                    <div class="price text-muted">Total: @String.Format("{0:0,0 VNĐ}", calc)</div>
+                </div>
+            </div>
+            id++;
+        }
+    }
+</div>

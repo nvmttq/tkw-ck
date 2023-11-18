@@ -11,14 +11,10 @@ namespace WebBanHang.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class ProductCategory
     {
         public int CategoryId { get; set; }
         public int ProductId { get; set; }
-
-        public Product product { get; set; }
-        public Category category { get; set; }
-        public List<Category> categories { get; set; }
     }
 }

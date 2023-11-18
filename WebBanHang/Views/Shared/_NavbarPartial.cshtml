@@ -17,11 +17,8 @@
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
             <!-- Navbar brand -->
-            <a class="navbar-brand mt-2 mt-sm-0" href="https://mdbootstrap.com/">
-                <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-                     height="20"
-                     alt="MDB Logo"
-                     loading="lazy" />
+            <a class="navbar-brand mt-2 mt-sm-0" href="/">
+                    <img src="~/Images/logo.png" height="35" loading="lazy" />
             </a>
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -63,20 +60,19 @@
                 {
 
 
-                    <div class="btn-group">
-                        <button type="button" class="d-flex gap-1 align-items-center btn btn-primary dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
-                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-circle" style="width: 30px;"
-                                 alt="Avatar" />
-                            <span>@user.FullName</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="@Url.Action("Logout", "Account")">Logout</a></li>
-                        </ul>
-                    </div>
+                        <div class="btn-group">
+                            <button type="button" class="d-flex gap-1 align-items-center btn btn-primary dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
+                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-circle" style="width: 30px;"
+                                     alt="Avatar" />
+                                <span>@user.FullName</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Thông tin</a></li>
+                                <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Logout", "Account")">Đăng xuất</a></li>
+                            </ul>
+                        </div>
                 }
                 else
                 {

@@ -5,9 +5,9 @@
 
 
 <section class="col-md-2" id="filters">
-    <h5>Filters</h5>
     <div class="dropdown-sort">
-        <button class="btn dropdown-toggle hidden-arrow"
+        <h6>Sắp xếp</h6>
+        <button class="btn dropdown-toggle hidden-arrow mb-3"
                 type="button"
                 id="dropdownMenuSorting"
                 data-mdb-toggle="dropdown"
@@ -16,14 +16,14 @@
         </button>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuSorting" style="height: max-content;">
-            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','NAME','ASC')">Sắp xếp tăng dần theo tên SP</div>
-            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','NAME','DESC')">"Sắp xếp giảm dần theo tên SPP</div>
-            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','PRICE','ASC')">Sắp xếp theo giá SP tăng dần</div>
-            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('','','1','PRICE','DESC')">Sắp xếp theo giá SP giảm dần</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','NAME','ASC')">Sắp xếp tăng dần theo tên SP</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','NAME','DESC')">Sắp xếp giảm dần theo tên SPP</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','PRICE','ASC')">Sắp xếp theo giá SP tăng dần</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','PRICE','DESC')">Sắp xếp theo giá SP giảm dần</div>
 
 
         </div>
-        <button class="btn btn-primary" onclick="App.ClearFilter('sortby')">Xóa bộ lọc</button>
+        <button class="btn btn-primary mb-3" onclick="App.ClearFilter('sortby')">Xóa bộ lọc</button>
 
     </div>
     <!-- Section: Condition -->

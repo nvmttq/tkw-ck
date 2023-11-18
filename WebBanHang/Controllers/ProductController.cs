@@ -21,6 +21,15 @@ namespace WebBanHang.Controllers
             var product = from p in db.Products
                           where p.Id == ProductId
                           select p;
+            foreach (Product p in product)
+            {
+
+                List<Category> categories = (from c in db.Categories
+                                             join pc in db.ProductCategories on c.Id equals pc.CategoryId
+                                             where pc.ProductId == p.Id
+                                             select c).ToList();
+                p.categories = categories;
+            }
             return View(product.Single());
         }
 

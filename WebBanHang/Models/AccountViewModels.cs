@@ -49,16 +49,16 @@ namespace WebBanHang.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Email Or Username")]
+        [Required(ErrorMessage = "Email hoặc Tên tài khoản không được để trống")]
+        [Display(Name = "Email hoặc Tên tài khoản")]
+        public string EmailOrUsername = "admin000";
 
-        public string EmailOrUsername { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; } // admins
+        [Display(Name = "Mật khẩu")]
+        public string Password = "concun123@"; // admins
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Ghi nhớ?")]
         public bool RememberMe { get; set; }
     }
 

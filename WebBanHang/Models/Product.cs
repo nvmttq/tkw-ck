@@ -28,5 +28,8 @@ namespace WebBanHang.Models
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
+
+        public List<Category> categories { get; set; }
+        public List<CategorySelections> CategorySelections { get; set; }
     }
 }

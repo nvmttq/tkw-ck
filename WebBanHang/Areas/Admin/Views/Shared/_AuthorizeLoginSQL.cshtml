@@ -1,0 +1,23 @@
+﻿
+@using WebBanHang.Models
+@{
+    User user = Session["user"] as User;
+}
+
+
+@if (user != null)
+{
+    <div class="btn-group">
+        <button type="button" class="d-flex gap-1 align-items-center btn btn-primary dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
+            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-circle" style="width: 30px;"
+                 alt="Avatar" />
+            <span>@user.FullName</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Thông tin</a></li>
+            <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="@Url.Action("Logout", "Dashboard")">Đăng xuất</a></li>
+        </ul>
+    </div>
+}

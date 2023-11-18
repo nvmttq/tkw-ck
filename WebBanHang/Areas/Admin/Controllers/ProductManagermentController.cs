@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -7,6 +8,7 @@ using WebBanHang.Models;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
+    
     public class ProductManagermentController : Controller
     {
         private WebBanHangEntities db = new WebBanHangEntities();
@@ -69,42 +71,44 @@ namespace WebBanHang.Areas.Admin.Controllers
             var product = (from p in db.Products
                            where p.Id == productId
                            select p).FirstOrDefault();
-            var productCategory = (from pc in db.ProductCategories
-                                   where pc.ProductId == productId
-                                   select pc).FirstOrDefault();
-            productCategory.categories = db.Categories.ToList();
-            productCategory.product = product;
-            return View(productCategory);
+            product.categories = (from c in db.Categories
+                                  join pc in db.ProductCategories on c.Id equals pc.CategoryId
+                                  where pc.ProductId == product.Id
+                                  select c).ToList();
+            product.CategorySelections = db.Categories.Select(x => new CategorySelections
+            {
+                Name = x.Name,
+                Id = x.Id,
+                IsSelected = (from pc in db.ProductCategories
+                              where pc.CategoryId == x.Id && pc.ProductId == productId
+                              select pc).ToList().Count() > 0
+            }).ToList();
+            return View(product);
         }
 
         [HttpPost]
-        public ActionResult Edit(FormCollection f, int ?productId)
+        public ActionResult Edit([Bind(Include = "Id,Name,Price,Discount,Image,Quantity,Description,CategorySelections")] Product product)
         {
-            string Name = f["ProductName"];
-            double Price = double.Parse(f["ProductPrice"]);
-            int Category = int.Parse(f["ProductCategories"]);
-            int Quantity = int.Parse(f["ProductQuantity"]);
-            string Description = f["ProductDescription"];
+            var proCat = (from pc in db.ProductCategories
+                          join c in db.Categories on pc.CategoryId equals c.Id
+                          where pc.ProductId == product.Id
+                          select pc);
 
-            Product product = (from p in db.Products
-                           where p.Id == productId
-                           select p).FirstOrDefault();
-            product.Name = Name;
-            product.Price = (decimal)Price;
-            product.Quantity = Quantity;
-            product.Description = Description;
+            db.ProductCategories.RemoveRange(proCat);
 
-            var pc = (from pcc in db.ProductCategories
-                      where pcc.ProductId == productId
-                      select pcc).FirstOrDefault();
-            db.ProductCategories.Remove(pc);
+            foreach(var c in product.CategorySelections)
+            {
+                if (c.IsSelected == false) continue;
+                ProductCategory pc = new ProductCategory();
+                pc.ProductId = product.Id;
+                pc.CategoryId = c.Id;
 
-            ProductCategory record_pc = new ProductCategory();
-            record_pc.CategoryId = Category;
-            record_pc.ProductId = (int)productId;
-
+                db.ProductCategories.Add(pc);
+            }
+            db.Entry(product).State = EntityState.Modified;
             db.SaveChanges();
             
+
             return RedirectToAction("Index");
         }
     }

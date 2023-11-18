@@ -1,11 +1,12 @@
 ﻿@using WebBanHang.Models;
-@model ProductCart
+@model Checkout
 @{
     ViewBag.Title = "Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = (User)Session["user"];
 }
 
+<script src="~/Scripts/checkoutController.js"></script>
 <section class="row">
     <!-- Checkout -->
     <div class="card shadow-0 border col-xl-8 col-lg-8 mb-4">
@@ -29,7 +30,14 @@
                 </div>
             </div>
 
-
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <p class="mb-0">Email</p>
+                    <div class="form-outline">
+                        <input type="text" id="fullname-shipping" name="email-shipping" value="@user.Email" placeholder="Type here" class="form-control" />
+                    </div>
+                </div>
+            </div>
             <hr class="my-4" />
 
 
@@ -63,7 +71,7 @@
             <div class="form-group">
                 <label>Hình thức thanh toán</label>
                 <select class="form-control" name="TypePayment" id="drTypePayment" onchange="Checkout.LoadMethodPayment(event)">
-                    <option value="1" selected>COD</option>
+                    <option value="500" selected>COD</option>
                     <option value="2">Chuyển khoản</option>
                 </select>
             </div>
@@ -83,62 +91,8 @@
     </div>
  
     <!-- Checkout -->
-    <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
-        <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
-            <h6 class="mb-3">Tổng</h6>
-            <div class="d-flex justify-content-between">
-                <p class="mb-2">Tổng:</p>
-                <p class="mb-2">@String.Format("{0:0,0 VNĐ}", ViewBag.TotalPrice)</p>
-            </div>
-            <div class="d-flex justify-content-between">
-                <p class="mb-2">Đã giảm:</p>
-                <p class="mb-2 text-danger">@String.Format("{0:0,0 VNĐ}", ViewBag.Discount)</p>
-            </div>
-            @*<div class="d-flex justify-content-between">
-                    <p class="mb-2">Shipping cost:</p>
-                    <p class="mb-2">+ $14.00</p>
-                </div>*@
-            <hr />
-            <div class="d-flex justify-content-between">
-                <p class="mb-2">Tiền phải trả:</p>
-                <p class="mb-2 fw-bold">@String.Format("{0:0,0 VNĐ}", ViewBag.TotalPrice - ViewBag.Discount)</p>
-            </div>
-
-            <div class="input-group mt-3 mb-4">
-                <input type="text" class="form-control border" id="code-coupon" name="code-coupon" placeholder="Nhập mã" />
-                <button class="btn btn-light text-primary border">Nhập</button>
-                <div id="coupon-selected">
-                    @*Name coupon | % | remove*@
-                </div>
-            </div>
-
-            <hr />
-            <h6 class="text-dark my-4">Sản phẩm đã chọn</h6>
-
-
-            @{
-                var id = 0;
-                foreach (var item in Model.product)
-                {
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="me-3 position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
-                                @Model.cart[id].Quantity
-                            </span>
-                            <img src="@item.Image" style="height: 96px; width: 96px;" class="img-sm rounded border" />
-                        </div>
-                        <div class="">
-                            <a href="#" class="nav-link">@item.Name</a>
-                            @{ 
-                                double calc = ((double)item.Price * (double)Model.cart[id].Quantity) ;
-                            }
-                        <div class="price text-muted">Total: @String.Format("{0:0,0 VNĐ}", calc)</div>
-                        </div>
-                    </div>
-                    id++;
-                }
-            }
-        </div>
+    <div id="checkout-sum" class="col-xl-4 col-lg-4 d-flex justify-content-start justify-content-lg-start">
+        @Html.Partial("_CheckoutPartial",Model)
     </div>
 
 

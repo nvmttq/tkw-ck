@@ -34,6 +34,7 @@
     <EntitySetMapping Name="Coupons">
       <EntityTypeMapping TypeName="WebBanHangModel.Coupon">
         <MappingFragment StoreEntitySet="Coupon">
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />

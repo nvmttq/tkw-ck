@@ -50,10 +50,7 @@ const HandlePaging = function (page, pageParams) {
 
 const HandleKeyword = function (keyword, keywordParams) {
 
-    var urlKeywordParams = (keywordParams ? keywordParams : "");
-    if (keyword) {
-        urlKeywordParams = keyword.toString();
-    }
+    var urlKeywordParams = keyword;
  
     return urlKeywordParams;
 }
@@ -132,7 +129,6 @@ var App = {
     },
 
     SearchCategory: function (categoryId, keyword, page, sortby, order) {
-        console.log(keyword)
         var queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         var categoryIdParams = urlParams.get('CategoryId')
@@ -141,7 +137,7 @@ var App = {
         var sortbyParams = urlParams.get('sortby')
         var orderParams = urlParams.get('order')
 
-
+        console.log(keyword)
         var dataCategoryId = HandleCategoryId(categoryId, categoryIdParams);
         console.log(dataCategoryId)
         if (dataCategoryId.url !== "") {

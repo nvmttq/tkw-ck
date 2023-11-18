@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
@@ -117,12 +123,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -176,6 +176,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderManagermentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductManagermentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagermentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -197,6 +198,11 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>WebBanHangModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategorySelections.cs" />
+    <Compile Include="Models\Checkout.cs" />
+    <Compile Include="Models\Commons\Common.cs" />
+    <Compile Include="Models\Commons\Filter.cs" />
+    <Compile Include="Models\Commons\SettingHelper.cs" />
     <Compile Include="Models\Coupon.cs">
       <DependentUpon>WebBanHangModel.tt</DependentUpon>
     </Compile>
@@ -256,6 +262,7 @@
     <Content Include="Content\homepage.css" />
     <Content Include="Content\mdb.min.css" />
     <Content Include="Content\product.css" />
+    <Content Include="Content\templates\sendOrtherSuccess.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -275,6 +282,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WebBanHangModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\logo.png" />
     <Content Include="Models\WebBanHangModel.edmx.diagram">
       <DependentUpon>WebBanHangModel.edmx</DependentUpon>
     </Content>
@@ -282,6 +290,14 @@
     <Content Include="Areas\Admin\Views\ProductManagerment\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\OrderManagerment\Index.cshtml" />
     <Content Include="Areas\Admin\Views\OrderManagerment\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\LoginAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AuthorizeLoginSQL.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LoginAdmin.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Models\WebBanHangModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -293,6 +309,7 @@
       <DependentUpon>WebBanHangModel.edmx</DependentUpon>
       <LastGenOutput>WebBanHangModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\adminProduct.js" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\cartController.js" />
     <Content Include="Scripts\checkoutController.js" />
@@ -346,7 +363,6 @@
     <Content Include="Views\Shared\_NavbarPartial.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Shared\_NavPillPartial.cshtml" />
-    <Content Include="Views\Shared\_LoadProductPartial.cshtml" />
     <Content Include="Views\Account\LoginWithUsername.cshtml" />
     <Content Include="Views\Shared\_FilterProductPartial.cshtml" />
     <Content Include="Views\Shared\_ProductsPartial.cshtml" />
@@ -355,6 +371,9 @@
     <Content Include="Views\Order\FailureView.cshtml" />
     <Content Include="Views\Order\VnpayReturn.cshtml" />
     <Content Include="Views\Account\ListUser.cshtml" />
+    <Content Include="Views\Order\COD_Return.cshtml" />
+    <Content Include="Views\Shared\_CouponSelectedPartial.cshtml" />
+    <Content Include="Views\Shared\_CheckoutPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
