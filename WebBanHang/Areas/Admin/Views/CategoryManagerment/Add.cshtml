@@ -1,0 +1,12 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Add</h2>
+
+@foreach(dynamic i in Model)
+            {
+                <span>@i.productId</span>
+            }

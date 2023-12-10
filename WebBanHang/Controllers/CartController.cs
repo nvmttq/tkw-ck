@@ -22,7 +22,8 @@ namespace WebBanHang.Controllers
         // GET: Cart
         public ActionResult Index(int? isSelectedBeforeCheckout)
         {
-            if(isSelectedBeforeCheckout == 1)
+            Session["ProductSelected"] = null;
+            if (isSelectedBeforeCheckout != null && isSelectedBeforeCheckout == 1)
             {
                 ViewBag.isSelectedBeforeCheckout = 1;
             }

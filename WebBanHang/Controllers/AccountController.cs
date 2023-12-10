@@ -258,15 +258,18 @@ namespace account.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = (from u in db.Users
+                            where u.Email == model.Email
+                            select u).FirstOrDefault();
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    ViewBag.Notice = "Email không tồn tại trong hệ thống !!!";
+                    return View(model);
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -274,10 +277,21 @@ namespace account.Controllers
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string contentCustomer = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/ForgotPassword.html"));
+
+                contentCustomer = contentCustomer.Replace("{{TenUser}}", user.FullName);
+                contentCustomer = contentCustomer.Replace("{{EmailUser}}", user.Email);
+                contentCustomer = contentCustomer.Replace("{{LinkReset}}", "https://localhost:44302/Account/LinkReset?uid="+user.Id);
+
+
+                WebBanHang.Common.Common.SendMail("ShopOnline", "Đường dẫn thay đổi mật khẩu", contentCustomer.ToString(), model.Email);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
             }
 
+
             // If we got this far, something failed, redisplay form
+            ViewBag.Notice = "Email không tồn tại trong hệ thống !!!";
             return View(model);
         }
 
@@ -289,6 +303,40 @@ namespace account.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult LinkReset(string uid)
+        {
+            return View("LinkReset",null,uid);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult LinkReset(FormCollection f, string uid)
+        {
+            string pass1 = f["passNew"];
+            string pass2 = f["passNewAgain"];
+
+            if(pass1 != pass2)
+            {
+                ViewBag.IncorrectResetPass = "Mật khẩu và mật khẩu nhập lại không khớp nhau !";
+                return View();
+            }
+
+            var user = (from u in db.Users
+                        where u.Id.ToString() == uid
+                        select u).FirstOrDefault();
+            user.Password = pass1;
+            db.SaveChanges();
+            return View("SuccessResetPass");
+        }
+
+        [AllowAnonymous]
+        public ActionResult SuccessResetPass()
+        {
+            return View();
+        }
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
@@ -441,14 +489,7 @@ namespace account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = (from u in db.Users
-                            where u.Username == model.Email
-                            select u).FirstOrDefault();
-                Session["user"] = user;
-                return RedirectToAction("Index", "Manage");
-            }
+            
 
             if (ModelState.IsValid)
             {

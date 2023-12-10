@@ -51,12 +51,14 @@ namespace WebBanHang.Models
     {
         [Required(ErrorMessage = "Email hoặc Tên tài khoản không được để trống")]
         [Display(Name = "Email hoặc Tên tài khoản")]
-        public string EmailOrUsername = "admin000";
+        //public string EmailOrUsername = "admin000";
+        public string EmailOrUsername { get; set; }
 
         [Required(ErrorMessage = "Mật khẩu không được để trống")]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu")]
-        public string Password = "concun123@"; // admins
+        //public string Password = "concun123@"; // admins
+        public string Password { get; set; }
 
         [Display(Name = "Ghi nhớ?")]
         public bool RememberMe { get; set; }
@@ -68,7 +70,7 @@ namespace WebBanHang.Models
         [Display(Name = "Họ và Tên")]
         public string Fullname { get; set; }
         [Required]
-        [Display(Name = "Username")]
+        [Display(Name = "Tên tài khoản")]
         public string Username { get; set; }
 
         [Required]
@@ -79,11 +81,11 @@ namespace WebBanHang.Models
         [Required]
         [StringLength(100, ErrorMessage = "Mật khẩu phải dài ít nhất {2} ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Nhập lại mật khẩu")]
         [Compare("Password", ErrorMessage = "Mật khẩu và Mật khẩu nhập lại không trùng khớp.")]
         public string ConfirmPassword { get; set; }
     }

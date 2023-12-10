@@ -173,10 +173,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderManagermentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductManagermentController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryManagermentController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagermentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -262,6 +264,7 @@
     <Content Include="Content\homepage.css" />
     <Content Include="Content\mdb.min.css" />
     <Content Include="Content\product.css" />
+    <Content Include="Content\templates\ForgotPassword.html" />
     <Content Include="Content\templates\sendOrtherSuccess.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -298,6 +301,16 @@
     <Content Include="Areas\Admin\Views\Dashboard\LoginAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AuthorizeLoginSQL.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LoginAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagerment\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagerment\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagerment\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagerment\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagerment\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Models\WebBanHangModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -374,6 +387,8 @@
     <Content Include="Views\Order\COD_Return.cshtml" />
     <Content Include="Views\Shared\_CouponSelectedPartial.cshtml" />
     <Content Include="Views\Shared\_CheckoutPartial.cshtml" />
+    <Content Include="Views\Account\LinkReset.cshtml" />
+    <Content Include="Views\Account\SuccessResetPass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

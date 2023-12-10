@@ -1,0 +1,937 @@
+USE [WebBanHang]
+GO
+/****** Object:  Table [dbo].[Admin]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Admin](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [varchar](32) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+	[Name] [varchar](128) NOT NULL,
+ CONSTRAINT [PK__Admin__3214EC07ED052253] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Cart]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cart](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [varchar](50) NULL,
+	[ProductId] [int] NULL,
+	[Quantity] [int] NULL,
+	[CreatedAt] [datetime] NULL,
+	[UpdatedAt] [datetime] NULL,
+ CONSTRAINT [PK_Table_1] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Category](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NULL,
+ CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Coupon]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Coupon](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProductId] [int] NOT NULL,
+	[Discount] [int] NULL,
+	[Code] [varchar](50) NULL,
+ CONSTRAINT [PK_Coupon] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Feedback]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Feedback](
+	[Id] [int] NOT NULL,
+	[UserId] [varchar](50) NULL,
+	[ProductId] [int] NULL,
+	[Description] [ntext] NULL,
+	[CreatedAt] [datetime] NULL,
+	[UpdatedAt] [datetime] NULL,
+	[Image] [varchar](250) NULL,
+ CONSTRAINT [PK_Feedback] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Order]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[OrderDate] [datetime] NULL,
+	[Status] [bit] NULL,
+	[DeliveryDate] [datetime] NULL,
+	[Note] [nvarchar](100) NULL,
+	[UserId] [varchar](50) NULL,
+	[Address] [nvarchar](250) NULL,
+	[Phone] [varchar](20) NULL,
+	[FullName] [nvarchar](50) NULL,
+	[TotalPrice] [decimal](18, 0) NULL,
+	[Discount] [decimal](18, 0) NULL,
+ CONSTRAINT [PK__Order__3214EC07636C0EE6] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderDetail]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderDetail](
+	[OrderId] [int] NOT NULL,
+	[ProductId] [int] NOT NULL,
+	[Price] [decimal](18, 0) NULL,
+	[Quantity] [int] NULL,
+ CONSTRAINT [PK_OrderDetail] PRIMARY KEY CLUSTERED 
+(
+	[OrderId] ASC,
+	[ProductId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Product]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NULL,
+	[Price] [decimal](18, 0) NULL,
+	[Discount] [int] NULL,
+	[Image] [varchar](250) NULL,
+	[Rating] [int] NULL,
+	[FreeShip] [bit] NULL,
+	[Quantity] [int] NULL,
+	[Hot] [bit] NULL,
+	[Description] [ntext] NULL,
+	[ViewCount] [int] NULL,
+	[CreateBy] [int] NULL,
+	[CreatedAt] [datetime] NULL,
+	[UpdatedAt] [datetime] NULL,
+ CONSTRAINT [PK__Product__3214EC0770C08ADA] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProductCategory]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductCategory](
+	[CategoryId] [int] NOT NULL,
+	[ProductId] [int] NOT NULL,
+ CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
+(
+	[CategoryId] ASC,
+	[ProductId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProductListImage]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductListImage](
+	[Id] [int] NOT NULL,
+	[ProductId] [int] NULL,
+	[LinkImage] [varchar](250) NULL,
+ CONSTRAINT [PK_ProductListImage] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Role]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Role](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 12/10/2023 11:29:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FullName] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](50) NULL,
+	[Phone] [nvarchar](15) NULL,
+	[Address] [nvarchar](128) NULL,
+	[Username] [varchar](50) NULL,
+	[Password] [varchar](50) NOT NULL,
+	[RoleId] [int] NULL,
+ CONSTRAINT [PK__User__3214EC0721B52BF7] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Category] ON 
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (1, N'Thời trang nam')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (2, N'Thời trang nữ')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (3, N'Điện thoại di động')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (4, N'Máy tích xách tay')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (5, N'Thiết bị gia dụng')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (6, N'Đồng hồ')
+GO
+SET IDENTITY_INSERT [dbo].[Category] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Coupon] ON 
+GO
+INSERT [dbo].[Coupon] ([Id], [ProductId], [Discount], [Code]) VALUES (1, 6, 20, N'ABC')
+GO
+INSERT [dbo].[Coupon] ([Id], [ProductId], [Discount], [Code]) VALUES (2, 8, 20, N'BCA')
+GO
+INSERT [dbo].[Coupon] ([Id], [ProductId], [Discount], [Code]) VALUES (3, 5, 15, N'CAB')
+GO
+SET IDENTITY_INSERT [dbo].[Coupon] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Order] ON 
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2, CAST(N'2023-10-14T10:17:44.867' AS DateTime), 1, CAST(N'2023-11-12T00:00:00.000' AS DateTime), N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(614 AS Decimal(18, 0)), CAST(19 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3, CAST(N'2023-10-14T10:23:49.357' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(0 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (4, CAST(N'2023-10-14T10:25:02.167' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(0 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (5, CAST(N'2023-10-14T10:26:22.017' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(0 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (6, CAST(N'2023-10-14T10:28:24.877' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(0 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (7, CAST(N'2023-10-14T10:31:39.083' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (8, CAST(N'2023-10-14T10:33:59.413' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (9, CAST(N'2023-10-14T10:34:02.470' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (10, CAST(N'2023-10-14T10:34:38.283' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (11, CAST(N'2023-10-14T10:37:51.067' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (12, CAST(N'2023-10-14T10:38:15.923' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (13, CAST(N'2023-10-14T10:39:53.000' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (14, CAST(N'2023-10-14T10:40:30.923' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(350043 AS Decimal(18, 0)), CAST(35002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (15, CAST(N'2023-10-14T10:42:23.837' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(2100043 AS Decimal(18, 0)), CAST(210002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (16, CAST(N'2023-10-14T10:44:42.297' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(2100043 AS Decimal(18, 0)), CAST(210002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (17, CAST(N'2023-10-14T10:46:48.983' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(2100043 AS Decimal(18, 0)), CAST(210002 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1002, CAST(N'2023-10-18T09:06:45.330' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(26000105 AS Decimal(18, 0)), CAST(807505 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1003, CAST(N'2023-10-18T09:13:43.180' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(26000105 AS Decimal(18, 0)), CAST(807505 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1004, CAST(N'2023-11-09T10:21:34.277' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(53200000 AS Decimal(18, 0)), CAST(1570000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1005, CAST(N'2023-11-09T10:24:38.687' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL11', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1006, CAST(N'2023-11-09T10:28:31.123' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL 1', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1007, CAST(N'2023-11-09T10:34:26.690' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1008, CAST(N'2023-11-09T10:37:21.583' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15700000 AS Decimal(18, 0)), CAST(520000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1009, CAST(N'2023-11-09T10:47:12.360' AS DateTime), 0, NULL, N'Khong can biet', N'admin000', N'Nha O Dau The', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (1010, CAST(N'2023-11-09T10:51:23.937' AS DateTime), 0, NULL, N'khong can biet', N'admin000', N'khong biet nua / 277', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2004, CAST(N'2023-11-16T07:51:58.120' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2005, CAST(N'2023-11-16T07:53:11.930' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2006, CAST(N'2023-11-16T07:54:06.803' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2007, CAST(N'2023-11-16T07:54:48.527' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2008, CAST(N'2023-11-16T07:56:23.273' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2009, CAST(N'2023-11-16T07:56:50.053' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (2010, CAST(N'2023-11-16T07:57:04.730' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3004, CAST(N'2023-11-16T23:08:12.197' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3005, CAST(N'2023-11-16T23:08:13.670' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(16050000 AS Decimal(18, 0)), CAST(555000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3006, CAST(N'2023-12-09T20:16:22.900' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(31050000 AS Decimal(18, 0)), CAST(1005000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3007, CAST(N'2023-12-09T20:17:27.593' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3008, CAST(N'2023-12-09T20:28:33.887' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3009, CAST(N'2023-12-09T20:28:44.633' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3010, CAST(N'2023-12-09T20:31:30.237' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3011, CAST(N'2023-12-09T20:33:33.613' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3012, CAST(N'2023-12-09T20:38:39.263' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3013, CAST(N'2023-12-09T20:40:38.443' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3014, CAST(N'2023-12-09T20:41:11.470' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3015, CAST(N'2023-12-09T20:43:49.817' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3016, CAST(N'2023-12-09T20:46:10.983' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL1', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3017, CAST(N'2023-12-09T20:52:31.643' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3018, CAST(N'2023-12-09T20:52:51.337' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3019, CAST(N'2023-12-09T20:56:51.560' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3020, CAST(N'2023-12-09T21:00:21.773' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3021, CAST(N'2023-12-09T21:01:12.160' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3022, CAST(N'2023-12-09T21:05:25.090' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3023, CAST(N'2023-12-09T21:05:55.163' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3024, CAST(N'2023-12-09T21:10:29.907' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3025, CAST(N'2023-12-09T21:14:40.437' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3026, CAST(N'2023-12-09T21:14:56.270' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3027, CAST(N'2023-12-09T21:17:56.930' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3028, CAST(N'2023-12-09T21:23:31.437' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3029, CAST(N'2023-12-09T22:30:04.277' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3030, CAST(N'2023-12-09T22:33:46.417' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3031, CAST(N'2023-12-09T22:50:30.940' AS DateTime), 0, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(15350000 AS Decimal(18, 0)), CAST(485000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3032, CAST(N'2023-12-10T22:13:43.290' AS DateTime), 0, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(15750000 AS Decimal(18, 0)), CAST(480000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3033, CAST(N'2023-12-10T22:33:38.763' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'0921219640', N'Minh Nguyễn Văn', CAST(500000 AS Decimal(18, 0)), CAST(52500 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3034, CAST(N'2023-12-10T22:40:03.677' AS DateTime), 0, NULL, N'Không có', N'realnobita1505@gmail.com', N'HVL/329', N'0921219640', N'Minh Nguyễn Văn', CAST(2000000 AS Decimal(18, 0)), CAST(100000 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3035, CAST(N'2023-12-10T22:51:35.507' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'HVL/329', N'0921219640', N'Minh Nguyễn Văn', CAST(800000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3036, CAST(N'2023-12-10T22:52:12.290' AS DateTime), 0, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(850000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3037, CAST(N'2023-12-10T22:53:29.123' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(450000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3038, CAST(N'2023-12-10T22:54:18.283' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(850000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3039, CAST(N'2023-12-10T22:54:24.853' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(0 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3040, CAST(N'2023-12-10T23:00:44.870' AS DateTime), NULL, NULL, N'Không có', N'admin000', N'322/HVL', N'0921219640', N'Nguyễn Văn Minh', CAST(400000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3041, CAST(N'2023-12-10T23:07:51.863' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'HVL/329', N'0921219640', N'Minh Nguyễn Văn', CAST(880000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3042, CAST(N'2023-12-10T23:08:25.417' AS DateTime), 0, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'Minh Nguyễn Văn', CAST(400000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3043, CAST(N'2023-12-10T23:17:35.947' AS DateTime), NULL, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'0921219640', N'MinhNguyễnVăn', CAST(80000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3044, CAST(N'2023-12-10T23:18:02.920' AS DateTime), 0, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(450000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+INSERT [dbo].[Order] ([Id], [OrderDate], [Status], [DeliveryDate], [Note], [UserId], [Address], [Phone], [FullName], [TotalPrice], [Discount]) VALUES (3045, CAST(N'2023-12-10T23:20:54.340' AS DateTime), 0, NULL, N'Không có', N'realnobita1505@gmail.com', N'Streert steer 320/9', N'', N'MinhNguyễnVăn', CAST(900000 AS Decimal(18, 0)), CAST(0 AS Decimal(18, 0)))
+GO
+SET IDENTITY_INSERT [dbo].[Order] OFF
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (4, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (4, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (4, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (5, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (5, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (5, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (6, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (6, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (6, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (7, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (7, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (7, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (8, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (8, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (8, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (9, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (9, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (9, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (10, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (10, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (10, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (11, 1, CAST(20 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (11, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (11, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (11, 8, CAST(400000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (12, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (12, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (13, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (13, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (14, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (14, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (15, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (15, 5, CAST(1890000 AS Decimal(18, 0)), 6)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (16, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (16, 5, CAST(1890000 AS Decimal(18, 0)), 6)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (17, 2, CAST(21 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (17, 5, CAST(1890000 AS Decimal(18, 0)), 6)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1002, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1002, 7, CAST(24250000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1002, 8, CAST(200000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1002, 10, CAST(427500 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1003, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1003, 7, CAST(24250000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1003, 8, CAST(200000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1003, 10, CAST(427500 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1004, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1004, 7, CAST(48500000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1004, 37, CAST(2500000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1005, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1005, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1006, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1006, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1007, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1007, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1008, 5, CAST(630000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1008, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1009, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1009, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1010, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (1010, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2004, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2004, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2005, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2005, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2006, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2006, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2007, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2007, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2008, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2008, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2009, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2009, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2010, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (2010, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3004, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3004, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3005, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3005, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3006, 5, CAST(945000 AS Decimal(18, 0)), 3)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3006, 6, CAST(29100000 AS Decimal(18, 0)), 2)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3007, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3007, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3008, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3008, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3009, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3009, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3010, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3010, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3011, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3011, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3012, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3012, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3013, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3013, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3014, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3014, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3015, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3015, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3016, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3016, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3017, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3017, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3018, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3018, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3019, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3019, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3020, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3020, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3021, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3021, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3022, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3022, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3023, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3023, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3024, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3024, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3025, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3025, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3026, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3026, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3027, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3027, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3028, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3028, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3029, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3029, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3030, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3030, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3031, 5, CAST(315000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3031, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3032, 6, CAST(14550000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3032, 12, CAST(150000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3032, 17, CAST(570000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3033, 9, CAST(297500 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3033, 12, CAST(150000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3034, 36, CAST(1900000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3035, 5, CAST(350000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3035, 10, CAST(450000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3036, 4, CAST(450000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3036, 14, CAST(400000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3037, 4, CAST(450000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3038, 4, CAST(450000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3038, 14, CAST(400000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3040, 14, CAST(400000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3041, 13, CAST(280000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3041, 17, CAST(600000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3042, 14, CAST(400000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3043, 15, CAST(80000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3044, 4, CAST(450000 AS Decimal(18, 0)), 1)
+GO
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Price], [Quantity]) VALUES (3045, 4, CAST(900000 AS Decimal(18, 0)), 2)
+GO
+SET IDENTITY_INSERT [dbo].[Product] ON 
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (4, N'Áo khoác nam', CAST(450000 AS Decimal(18, 0)), 0, NULL, NULL, NULL, 100, NULL, N'Áo khoác nam thời trang đẹp aa', NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (5, N'Áo thun nữ', CAST(350000 AS Decimal(18, 0)), 0, N'https://salt.tikicdn.com/cache/280x280/ts/product/82/06/96/dd757eaddd58b229715fbb066213c967.jpg', 5, 0, 80, 0, N'Áo thun nữ phong cách', 80, 2, CAST(N'2023-10-04T15:08:49.470' AS DateTime), CAST(N'2023-10-04T15:08:49.470' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (6, N'Điện thoại Samsung Galaxy S21', CAST(15000000 AS Decimal(18, 0)), 0, N'https://img.websosanh.vn/v10/users/review/images/lj1ecjn91opdy/samsung-galaxy-a10s.jpg?compress=85', 4, 1, 30, 1, N'Điện thoại Samsung cao cấp', 200, 3, CAST(N'2023-10-04T15:08:49.470' AS DateTime), CAST(N'2023-10-04T15:08:49.470' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (7, N'Máy tính xách tay Dell XPS 13', CAST(25000000 AS Decimal(18, 0)), 0, N'https://laptopxachtay.com.vn/Images/Products/40390_40330_40310_dell-xps-13-9315-i7-1250u-16gb-512gb-ssd-pcie-13-4-fhd-win-11-fg_40309_5.png?', 5, 1, 20, 1, N'Laptop Dell XPS 13', 150, 1, CAST(N'2023-10-04T15:08:49.470' AS DateTime), CAST(N'2023-10-04T15:08:49.470' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (8, N'Áo thun nam', CAST(200000 AS Decimal(18, 0)), 0, N'image1.jpg', 4, 1, 50, 1, N'Áo thun nam màu trắng', 1000, 1, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (9, N'Quần jeans nam', CAST(350000 AS Decimal(18, 0)), 0, N'image2.jpg', 4, 1, 30, 0, N'Quần jeans nam đẹp', 800, 2, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (10, N'Áo sơ mi nam', CAST(450000 AS Decimal(18, 0)), 0, N'image3.jpg', 5, 1, 40, 1, N'Áo sơ mi nam cao cấp', 1200, 3, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (11, N'Váy đầm nữ', CAST(300000 AS Decimal(18, 0)), 0, N'image4.jpg', 4, 1, 25, 1, N'Váy đầm nữ dễ thương', 600, 4, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (12, N'Balo Nam', CAST(150000 AS Decimal(18, 0)), 0, N'image5.jpg', 3, 1, 60, 0, N'Balo thời trang', 1500, 5, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (13, N'Giày thể thao nam', CAST(280000 AS Decimal(18, 0)), 0, N'image6.jpg', 4, 1, 45, 1, N'Giày thể thao nam màu đen', 900, 6, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (14, N'Áo khoác nữ', CAST(400000 AS Decimal(18, 0)), 0, N'image7.jpg', 4, 1, 35, 1, N'Áo khoác nữ thời trang', 1100, 7, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (15, N'Mũ nam', CAST(80000 AS Decimal(18, 0)), 0, N'image8.jpg', 3, 0, 80, 0, N'Mũ nam đơn giản', 800, 8, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (16, N'Túi xách nữ', CAST(250000 AS Decimal(18, 0)), 0, N'image9.jpg', 4, 1, 40, 0, N'Túi xách nữ thời trang', 950, 9, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (17, N'Đồng hồ nam', CAST(600000 AS Decimal(18, 0)), 0, N'image10.jpg', 4, 1, 20, 1, N'Đồng hồ nam cao cấp', 700, 10, CAST(N'2023-10-08T16:25:56.547' AS DateTime), CAST(N'2023-10-08T16:25:56.547' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (18, N'Laptop Dell XPS 13', CAST(15000000 AS Decimal(18, 0)), 0, N'laptop1.jpg', 5, 1, 20, 1, N'Laptop Dell XPS 13 inch, chip Intel Core i7, RAM 16GB, 512GB SSD', 1200, 1, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (19, N'Laptop ASUS ZenBook 14', CAST(12000000 AS Decimal(18, 0)), 0, N'laptop2.jpg', 4, 1, 25, 0, N'Laptop ASUS ZenBook 14 inch, chip Intel Core i5, RAM 8GB, 256GB SSD', 800, 2, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (20, N'Laptop HP Spectre x360', CAST(18000000 AS Decimal(18, 0)), 0, N'laptop3.jpg', 4, 1, 15, 1, N'Laptop HP Spectre x360 13 inch, chip Intel Core i7, RAM 16GB, 1TB SSD', 1500, 3, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (21, N'Laptop Lenovo ThinkPad X1 Carbon', CAST(14000000 AS Decimal(18, 0)), 0, N'laptop4.jpg', 4, 1, 30, 1, N'Laptop Lenovo ThinkPad X1 Carbon 14 inch, chip Intel Core i7, RAM 16GB, 512GB SSD', 1100, 4, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (22, N'Laptop Acer Swift 3', CAST(9000000 AS Decimal(18, 0)), 0, N'laptop5.jpg', 4, 1, 40, 0, N'Laptop Acer Swift 3 14 inch, chip Intel Core i5, RAM 8GB, 256GB SSD', 900, 5, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (23, N'Laptop Microsoft Surface Laptop 4', CAST(16000000 AS Decimal(18, 0)), 0, N'laptop6.jpg', 4, 1, 20, 1, N'Laptop Microsoft Surface Laptop 4 13.5 inch, chip Intel Core i5, RAM 8GB, 512GB SSD', 700, 6, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (24, N'Laptop Apple MacBook Air', CAST(18000000 AS Decimal(18, 0)), 0, N'laptop7.jpg', 5, 1, 15, 1, N'Laptop Apple MacBook Air 13 inch, chip M1, RAM 8GB, 256GB SSD', 1200, 7, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (25, N'Laptop MSI GS66 Stealth', CAST(20000000 AS Decimal(18, 0)), 0, N'laptop8.jpg', 5, 1, 10, 1, N'Laptop MSI GS66 Stealth 15.6 inch, chip Intel Core i9, RAM 32GB, 1TB SSD', 900, 8, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (26, N'Laptop Razer Blade 15', CAST(19000000 AS Decimal(18, 0)), 0, N'laptop9.jpg', 4, 1, 12, 1, N'Laptop Razer Blade 15 15.6 inch, chip Intel Core i7, RAM 16GB, 512GB SSD', 800, 9, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (27, N'Laptop LG Gram 17', CAST(22000000 AS Decimal(18, 0)), 0, N'laptop10.jpg', 4, 1, 8, 0, N'Laptop LG Gram 17 inch, chip Intel Core i7, RAM 16GB, 1TB SSD', 1000, 10, CAST(N'2023-10-08T16:29:32.390' AS DateTime), CAST(N'2023-10-08T16:29:32.390' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (28, N'Đồng hồ nam Casio', CAST(800000 AS Decimal(18, 0)), 0, N'dongho1.jpg', 4, 1, 50, 0, N'Đồng hồ nam Casio đẹp', 900, 1, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (29, N'Đồng hồ nữ Citizen', CAST(1200000 AS Decimal(18, 0)), 0, N'dongho2.jpg', 4, 1, 35, 1, N'Đồng hồ nữ Citizen đẹp và sang trọng', 700, 2, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (30, N'Đồng hồ nam Seiko', CAST(1500000 AS Decimal(18, 0)), 0, N'dongho3.jpg', 5, 1, 25, 1, N'Đồng hồ nam Seiko chính hãng', 1100, 3, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (31, N'Đồng hồ nữ Fossil', CAST(1000000 AS Decimal(18, 0)), 0, N'dongho4.jpg', 4, 1, 40, 0, N'Đồng hồ nữ Fossil thời trang', 800, 4, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (32, N'Đồng hồ nam Orient', CAST(900000 AS Decimal(18, 0)), 0, N'dongho5.jpg', 4, 1, 30, 1, N'Đồng hồ nam Orient dây da', 1500, 5, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (33, N'Đồng hồ nữ Michael Kors', CAST(1400000 AS Decimal(18, 0)), 0, N'dongho6.jpg', 4, 1, 20, 1, N'Đồng hồ nữ Michael Kors xinh đẹp', 900, 6, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (34, N'Đồng hồ nam Tissot', CAST(1800000 AS Decimal(18, 0)), 0, N'dongho7.jpg', 5, 1, 15, 1, N'Đồng hồ nam Tissot cao cấp', 1200, 7, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (35, N'Đồng hồ nữ Gucci', CAST(2200000 AS Decimal(18, 0)), 0, N'dongho8.jpg', 5, 1, 18, 1, N'Đồng hồ nữ Gucci thời trang', 1100, 8, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (36, N'Đồng hồ nam Longines', CAST(2000000 AS Decimal(18, 0)), 0, N'dongho9.jpg', 4, 1, 22, 1, N'Đồng hồ nam Longines mạ vàng', 800, 9, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Price], [Discount], [Image], [Rating], [FreeShip], [Quantity], [Hot], [Description], [ViewCount], [CreateBy], [CreatedAt], [UpdatedAt]) VALUES (37, N'Đồng hồ nữ Rolex', CAST(2500000 AS Decimal(18, 0)), 0, N'dongho10.jpg', 4, 1, 12, 1, N'Đồng hồ nữ Rolex chính hãng', 1000, 10, CAST(N'2023-10-08T16:32:38.137' AS DateTime), CAST(N'2023-10-08T16:32:38.137' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Product] OFF
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 4)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 8)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 9)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 10)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 12)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 13)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 15)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 17)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 28)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 30)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 32)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 34)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 36)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (1, 38)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 4)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 5)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 11)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 14)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 16)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 29)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 31)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 33)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 35)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (2, 37)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (3, 4)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (3, 6)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 4)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 7)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 18)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 19)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 20)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 21)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 22)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 23)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 24)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 25)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 26)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (4, 27)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 3)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 17)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 28)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 29)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 30)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 31)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 32)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 33)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 34)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 35)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 36)
+GO
+INSERT [dbo].[ProductCategory] ([CategoryId], [ProductId]) VALUES (6, 37)
+GO
+SET IDENTITY_INSERT [dbo].[Role] ON 
+GO
+INSERT [dbo].[Role] ([Id], [Name]) VALUES (1, N'ADMIN')
+GO
+INSERT [dbo].[Role] ([Id], [Name]) VALUES (2, N'CUSTOMER')
+GO
+INSERT [dbo].[Role] ([Id], [Name]) VALUES (3, N'SHOP')
+GO
+INSERT [dbo].[Role] ([Id], [Name]) VALUES (4, N'GUEST')
+GO
+SET IDENTITY_INSERT [dbo].[Role] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User] ON 
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (1, N'Nguyễn Văn Minh', N'minhnv155@gmailcom', N'0921219640', N'322/HVL', N'admin000', N'concun123@', 1)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (2, N'Nguyễn Văn A', N'nguyenvana@gmail.com', N'1234567890', N'123 Đường ABC, Quận 1', N'user1', N'user1', 2)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (3, N'Trần Thị B', N'tranthib@gmail.com', N'0987654321', N'456 Đường XYZ, Quận 2', N'user2', N'user', 2)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (4, N'Phạm Văn C', N'phamvanc@gmail.com', N'0123456789', N'789 Đường LMN, Quận 3', N'user3', N'user3', 3)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (5, N'Nguyễn Văn Minh', N'minhv15105@gmail.com', N'9876543210', N'322HVL', N'admin001', N'admin000', 1)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (6, N'Hoàng Thị E', N'hoangthie@gmail.com', N'0987654321', N'123 Đường XYZ, Quận 5', N'user5', N'user5', 2)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (7, N'Nguyễn Văn F', N'nguyenvanf@gmail.com', N'0123456789', N'456 Đường LMN, Quận 6', N'user6', N'user6', 3)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (9, N'Nguyễn Minh Thắng', N'thangcdnguyen@gmail.com', N'1234567890', N'101 Đường PQR, Quận 8', N'admin002', N'admin001', 1)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (10, N'Nguyen Van Minh1', N'luongvq1@gmail.com', NULL, NULL, N'luongvq', N'Abcd@1234', NULL)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (11, N'Nguyen Van Minh12', N'admin123@gmail.com', NULL, NULL, N'luongvq1', N'Abcd@1234', NULL)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (12, N'NguyễnMinh', N'nvmttq@gmail.com', NULL, N'Streert steer 320/9', N'nvmttq@gmail.com', N'authgoogle', 2)
+GO
+INSERT [dbo].[User] ([Id], [FullName], [Email], [Phone], [Address], [Username], [Password], [RoleId]) VALUES (1021, N'MinhNguyễnVăn', N'realnobita1505@gmail.com', NULL, N'Streert steer 320/9', N'realnobita1505@gmail.com', N'Concun123@1', 2)
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_User]    Script Date: 12/10/2023 11:29:17 PM ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_User] ON [dbo].[User]
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Cart] ADD  CONSTRAINT [DF_Cart_Amount]  DEFAULT ((0)) FOR [Quantity]
+GO
+ALTER TABLE [dbo].[Cart] ADD  CONSTRAINT [DF_Cart_CreatedAt]  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[Cart] ADD  CONSTRAINT [DF_Cart_UpdatedAt]  DEFAULT (getdate()) FOR [UpdatedAt]
+GO
+ALTER TABLE [dbo].[Order] ADD  CONSTRAINT [DF__Order__Status__48CFD27E]  DEFAULT ((0)) FOR [Status]
+GO
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF__Product__Price__398D8EEE]  DEFAULT ((0.0000)) FOR [Price]
+GO
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Discount]  DEFAULT ((0)) FOR [Discount]
+GO
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Rating]  DEFAULT ((0)) FOR [Rating]
+GO
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_FreeShip]  DEFAULT ((0)) FOR [FreeShip]
+GO
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_View]  DEFAULT ((0)) FOR [ViewCount]
+GO
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_CreateDate]  DEFAULT (getdate()) FOR [CreatedAt]
+GO

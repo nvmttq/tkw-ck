@@ -41,29 +41,22 @@ namespace WebBanHang.Controllers
 
             var carts = db.Carts.ToList();
             var products = db.Products.ToList();
-            ProductCart pc = new ProductCart();
-            var productCart = (from p in db.Products
-                               join crt in db.Carts
-                               on p.Id equals crt.ProductId
-                               where user.Username == crt.UserId
-                               select new
-                               {
-                                   cart = crt,
-                                   product = p
-
-                               }).ToList();
+            ProductCart pc = (ProductCart)Session["ProductSelected"];
+            var productCart = pc;
 
             ViewBag.TotalPriceDiscount = 0;
             ViewBag.TotalPrice = 0;
             var url = "";
             try
             {
-                foreach (var item in productCart)
+                var id = 0;
+                foreach (var item in pc.product)
                 {
-                    double a = CalcProductPrice((double)item.product.Price, (int)item.product.Discount) * (double)item.cart.Quantity;
+                    double a = CalcProductPrice((double)item.Price, (int)item.Discount) * (double)pc.cart[id].Quantity;
                     ViewBag.TotalPriceDiscount += a;
 
-                    ViewBag.TotalPrice += ((double)item.product.Price * (double)item.cart.Quantity);
+                    ViewBag.TotalPrice += ((double)item.Price * (double)pc.cart[id].Quantity);
+                    id++;
                 }
                 ViewBag.Discount = ViewBag.TotalPrice - ViewBag.TotalPriceDiscount;
                 double tot_price = ViewBag.TotalPriceDiscount;
@@ -80,22 +73,23 @@ namespace WebBanHang.Controllers
                 db.Orders.Add(order);
                 db.SaveChanges();
 
-
-                foreach (var item in productCart)
+                id = 0;
+                foreach (var item in pc.product)
                 {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.OrderId = order.Id;
-                    orderDetail.ProductId = item.product.Id;
-                    orderDetail.Price = (decimal)CalcProductPrice((double)item.product.Price, (int)item.product.Discount) * item.cart.Quantity;
-                    orderDetail.Quantity = item.cart.Quantity;
+                    orderDetail.ProductId = item.Id;
+                    orderDetail.Price = (decimal)CalcProductPrice((double)item.Price, (int)item.Discount) * pc.cart[id].Quantity;
+                    orderDetail.Quantity = pc.cart[id].Quantity;
                     db.OrderDetails.Add(orderDetail);
                     db.SaveChanges();
+                    id++;
                     // code tiep o day
                 }
                 ViewBag.Discount = ViewBag.TotalPrice - ViewBag.TotalPriceDiscount;
 
-                //db.Carts.RemoveRange(db.Carts.ToList());
-                //db.SaveChanges();
+                db.Carts.RemoveRange(db.Carts.ToList());
+                db.SaveChanges();
 
                 try
                 {
@@ -188,7 +182,7 @@ namespace WebBanHang.Controllers
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnpay.AddRequestData("vnp_Command", "pay");
             vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
-            vnpay.AddRequestData("vnp_Amount", Price.ToString()); //Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000
+            vnpay.AddRequestData("vnp_Amount", Price.ToString()); //Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000  
             if (TypePaymentVN == 1)
             {
                 vnpay.AddRequestData("vnp_BankCode", "VNPAYQR");
@@ -213,10 +207,7 @@ namespace WebBanHang.Controllers
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
 
             vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
-            vnpay.AddRequestData("vnp_TxnRef", order.Id.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
-
-            //Add Params of 2.1.0 Version
-            //Billing
+            vnpay.AddRequestData("vnp_TxnRef", order.Id.ToString()); 
 
             urlPayment = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
             //log.InfoFormat("VNPAY URL: {0}", paymentUrl);

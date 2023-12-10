@@ -14,6 +14,7 @@ namespace WebBanHang.Controllers
         private WebBanHangEntities db = new WebBanHangEntities();
         public ActionResult Index()
         {
+            Session["cart"] = null;
             var user = Session["user"] as User;
             if(user != null)
             {

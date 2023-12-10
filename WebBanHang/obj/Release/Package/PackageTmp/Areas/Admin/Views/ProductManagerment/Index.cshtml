@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebBanHang.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Quản lý sản phẩm</h2>
+
+<div class="d-flex align-items-center justify-content-between">
+
+    <div class="input-group" style="max-width: 50%;">
+        <div class="form-outline" style="border-bottom: 1px solid black;">
+            <input id="search-user" name="search-user" type="search" class="form-control" />
+            <label class="form-label" for="form1">Search</label>
+        </div>
+        <button type="button" class="btn btn-primary ">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <div class="d-flex align-items-center">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary me-1 mb-2 dropdown-toggle" id="dropdownfilterorder" data-mdb-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-filter"></i> Lọc theo
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownfilterorder">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+        <a href="@Url.Action("Create", "ProductManagerment")" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Tạo mới
+        </a>
+    </div>
+
+</div>
+<div class="header-product-manager d-flex justify-content-between align-items-center mb-3">
+
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    @foreach (var p in Model)
+    {
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp" class="card-img-top" alt="Skyscrapers" />
+                <div class="card-body">
+                    <h5 class="card-title">@p.Name</h5>
+                    <p class="card-text fw-bold">
+                        @String.Format("{0:0,0 VNĐ}", p.Price)
+                    </p>
+                </div>
+                <div class="card-footer d-flex justify-content-sm-between">
+                    <a href="@Url.Action("Edit", "ProductManagerment", new { productId=p.Id })" class="btn btn-primary btn-sm me-1">
+                        <i class="fas fa-pen"></i>
+                        Chỉnh sửa
+                    </a>
+                    <a href="@Url.Action("Delete", "ProductManagerment", new { productId=p.Id })" class="btn btn-primary btn-sm me-1" style="background-color: #ED5565;">
+                        <i class="fas fa-trash"></i>
+                        Xóa
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

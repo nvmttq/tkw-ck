@@ -1,0 +1,58 @@
+﻿
+@model WebBanHang.Models.Product
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Grid row-->
+<div class="row justify-content-center mt-4">
+    <!--Grid column-->
+    <div class="col-md-3 mb-4">
+        <img src="https://images.unsplash.com/photo-1600716051809-e997e11a5d52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1450&q=80"
+             class="img-fluid hover-shadow"
+             alt="Los Angeles Skyscrapers" style="height: 300px;" />
+    </div>
+    <!--Grid column-->
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+        <!--Content-->
+        <div class="p-4">
+            <div class="mb-3">
+                @foreach (var c in Model.categories)
+                {
+
+                    <span class="badge bg-info me-1">@c.Name</span>
+
+                }
+            </div>
+
+            <p class="lead">
+                <span class="me-1 text-danger">
+                    <del>@String.Format("{0:0,0 VNĐ}", Model.Price)</del>
+                </span>
+                <span>@String.Format("{0:0,0 VNĐ}", Model.Discount)</span>
+            </p>
+
+            <p style="font-size: 20px"><strong>Mô tả</strong></p>
+
+            <p>
+                @Model.Description
+            </p>
+
+            <form class="d-flex justify-content-left">
+                <!-- Default input -->
+                <div class="form-outline me-1" style="width: 100px">
+                    <input type="number" value="1" class="form-control" />
+                </div>
+                <a class="btn btn-primary ms-1" href="@Url.Action("AddToCart", "Cart", new { ProductId = Model.Id, returnUrl = Request.Url.ToString() })">
+                    Thêm vào giỏ hàng
+                    <i class="fas fa-shopping-cart ms-1"></i>
+                </a>
+            </form>
+        </div>
+        <!--Content-->
+    </div>
+    <!--Grid column-->
+</div>
+<!--Grid row-->

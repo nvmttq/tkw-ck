@@ -1,0 +1,99 @@
+﻿@using WebBanHang.Models;
+@model ProductCart
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listId = new List<string>();
+
+   
+}
+
+@if(ViewBag.isSelectedBeforeCheckout == 1)
+{
+    <script>
+        alert("Vui lòng chọn sản phẩm cần thanh toán");
+    </script>
+}
+
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="col">
+
+        <div class="table-responsive">
+            <table class="table" id="table-cart">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col" class="h5">Giỏ hàng của bạn</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá 1 sản phẩm</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="table-content-cart">
+                    @{
+                            var id = 0;
+                            foreach (var p in Model.product)
+                            {
+                               
+                            <tr style="vertical-align: middle;">
+                                <td>
+                                    <input type="checkbox" onclick='Cart.SelectProductCheckout(this,{product: @Html.Raw(Json.Encode(p)), cart: @Html.Raw(Json.Encode(Model.cart[id]))})'/>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @*<input type="checkbox" value="@p.Id" class="product-selected"/>*@
+                                        <img src="https://images.unsplash.com/photo-1600716051809-e997e11a5d52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1450&q=80" class="img-fluid rounded-3"
+                                             style="width: 120px;" alt="@p.Name"/>
+                                        <div class="flex-column ms-4">
+                                            <p class="mb-0 fw-bold">@p.Name</p>
+                                            <p class="mb-2">Thinking, Fast and Slow</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex" style="max-width: max-content;">
+                                        <!-- Quantity -->
+                                        <button class="btn btn-primary px-3 me-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); this.parentNode.querySelector('input').dispatchEvent(new Event('change'))">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+
+                                        <div class="form-outline" style="min-width: 50px; max-width: 100px;">
+                                            <input id="quantities-product-cart" min="0" name="quantity" value="@Model.cart[id].Quantity" type="number" class="form-control" onchange="Cart.UpdateQuantity(@p.Id,this.value)" />
+                                            <label class="form-label" for="form1">Số lượng</label>
+                                        </div>
+
+                                        <button class="btn btn-primary px-3 ms-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp();this.parentNode.querySelector('input').dispatchEvent(new Event('change'))">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <!-- Quantity -->
+                                    </div>
+
+                                </td>
+                                <td class="align-middle">
+                                    <!-- Price -->
+                                    <p class="mb-0" style="font-weight: 500;">@String.Format("{0:0,0 VNĐ}", p.Price)</p>
+                                    <!-- Price -->
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                                            title="Xóa" onclick="Cart.RemoveProduct(@p.Id)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            id++;
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        <a class="btn btn-primary btn-lg btn-block" style="width: max-content; float: right; margin-bottom: 10px;" href="@Url.Action("Index", "Checkout")">
+            Đến trang thanh toán
+        </a>
+
+    </div>
+</div>

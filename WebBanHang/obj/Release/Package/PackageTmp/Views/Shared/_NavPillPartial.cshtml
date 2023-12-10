@@ -1,0 +1,25 @@
+﻿
+@model IEnumerable<WebBanHang.Models.Category>
+<style type="text/css">
+    .active {
+        font-weight: bold;
+    }
+</style>
+
+<!-- Search -->
+<div class="input-group w-75 h-100 py-1" style="margin: 0 auto; margin-bottom: 10px;">
+
+
+    <input type="search"
+           class="form-control"
+           name="keyword1" id="keyword"
+           value="@Request.QueryString["keyword"]"
+           placeholder="Tìm kiếm gì đó...."
+           aria-label="Search"
+           aria-describedby="search-addon"
+           autocomplete="off"
+           
+            />
+
+    <button onclick="App.SearchCategory('',$('#keyword').val(),'1')" id="submit-keyword" type="button" class="btn btn-primary">Tìm kiếm</button>
+</div>

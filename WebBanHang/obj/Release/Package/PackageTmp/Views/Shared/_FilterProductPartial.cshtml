@@ -1,0 +1,246 @@
+﻿
+
+@model IEnumerable<WebBanHang.Models.StoreFilterModel>
+
+
+
+<section class="col-md-2" id="filters">
+    <div class="dropdown-sort">
+        <h6>Sắp xếp</h6>
+        <button class="btn dropdown-toggle hidden-arrow mb-3"
+                type="button"
+                id="dropdownMenuSorting"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false">
+            Sắp xếp theo
+        </button>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuSorting" style="height: max-content;">
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','NAME','ASC')">Sắp xếp tăng dần theo tên SP</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','NAME','DESC')">Sắp xếp giảm dần theo tên SPP</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','PRICE','ASC')">Sắp xếp theo giá SP tăng dần</div>
+            <div class="text-uppercase dropdown-item" onclick="App.SearchCategory('',document.getElementById('keyword').value,'1','PRICE','DESC')">Sắp xếp theo giá SP giảm dần</div>
+
+
+        </div>
+        <button class="btn btn-primary mb-3" onclick="App.ClearFilter('sortby')">Xóa bộ lọc</button>
+
+    </div>
+    <!-- Section: Condition -->
+    <section class="mb-4" data-filter="condition">
+        <h6 class="font-weight-bold mb-3">Danh mục</h6>
+
+        @foreach (var item in Model)
+        {
+            //onclick = "this.querySelector('input').click()"
+            <div class="form-check mb-3" >
+                @if (item.isCheck == true)
+                {
+                    <input class="form-check-input"
+                           type="checkbox"
+                           value="@item.c.Name"
+                           onchange="App.SearchCategory(@item.c.Id, '','1')"
+                           checked
+                           autocompleted="" />
+                }
+                else
+                {
+                    <input class="form-check-input"
+                           type="checkbox"
+                           value="@item.c.Name"
+                           onclick="App.SearchCategory(@item.c.Id, '', '1')"
+                           autocompleted="" />
+                }
+
+                <label class="form-check-label text-uppercase small text-muted"
+                       for="condition-checkbox">
+                    @item.c.Name
+                </label>
+            </div>
+        }
+        <button class="btn btn-primary" onclick="App.ClearFilter('CategoryId')">Xóa bộ lọc</button>
+    </section>
+    <!-- Section: Condition -->
+    
+    <!-- Section: Price -->
+    <section class="mb-4">
+        <h6 class="font-weight-bold mb-3">Giá</h6>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="radio"
+                   name="flexRadioDefault"
+                   id="price-radio" 
+                   onclick="App.FilterPrice(0, 100000)"
+                   />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-radio">
+                Dưới @String.Format("{0:0,0 VNĐ}", 100000)
+            </label>
+        </div>
+
+        <div class="form-check mb-3" >
+            <input class="form-check-input"
+                   type="radio"
+                   name="flexRadioDefault"
+                   id="price-radio2" 
+                   onclick="App.FilterPrice(100000, 500000)"/>
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-radio2">
+                @String.Format("{0:0,0 VNĐ}", 100000) đến @String.Format("{0:0,0 VNĐ}", 500000)
+            </label>
+        </div>
+
+        <div class="form-check mb-3" onclick="App.FilterPrice(50000, 1000000)">
+            <input class="form-check-input"
+                   type="radio"
+                   name="flexRadioDefault"
+                   id="price-radio3" 
+                   
+                   />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-radio3">
+                @String.Format("{0:0,0 VNĐ}", 500000) đến @String.Format("{0:0,0 VNĐ}", 1000000)
+
+            </label>
+        </div>
+
+        <div class="form-check mb-3" >
+            <input class="form-check-input"
+                   type="radio"
+                   name="flexRadioDefault"
+                   id="price-radio4" onchange="App.FilterPrice(1000000, 2000000)" />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-radio4">
+                @String.Format("{0:0,0 VNĐ}", 1000000) đến @String.Format("{0:0,0 VNĐ}", 2000000)
+            </label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="radio"
+                   name="flexRadioDefault"
+                   id="price-radio5" onchange="App.FilterPrice(2000000, 99999999)"/>
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-radio5">
+                từ @String.Format("{0:0,0 VNĐ}",2000000)
+            </label>
+        </div>
+    </section>
+    <!-- Section: Price -->
+    <!-- Section: Size -->
+    @*<section class="mb-4" data-filter="size">
+        <h6 class="font-weight-bold mb-3">Size</h6>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   value="34"
+                   id="price-checkbox" />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-checkbox">
+                34
+            </label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   value="36"
+                   id="price-checkbox2" />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-checkbox2">
+                36
+            </label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   value="38"
+                   id="price-checkbox3" />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-checkbox3">
+                38
+            </label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   value="40"
+                   id="price-checkbox4" />
+            <label class="form-check-label text-uppercase small text-muted"
+                   for="price-checkbox4">
+                40
+            </label>
+        </div>
+    </section>*@
+    <!-- Section: Size -->
+    <!-- Section: Color -->
+    @*<section class="mb-4" data-filter="color">
+        <h6 class="font-weight-bold mb-3">Color</h6>
+
+        <div class="form-check form-check-inline m-0 p-0 pr-3">
+            <input class="btn-check"
+                   type="radio"
+                   name="colorRadio"
+                   id="colorRadio1"
+                   value="white" />
+            <label class="btn bg-light btn-rounded p-3"
+                   for="colorRadio1"></label>
+        </div>
+
+        <div class="form-check form-check-inline m-0 p-0 pr-3">
+            <input class="btn-check"
+                   type="radio"
+                   name="colorRadio"
+                   id="colorRadio2"
+                   value="grey" />
+            <label class="btn btn-rounded p-3"
+                   for="colorRadio2"
+                   style="background-color: #bdbdbd"></label>
+        </div>
+
+        <div class="form-check form-check-inline m-0 p-0 pr-3">
+            <input class="btn-check"
+                   type="radio"
+                   name="colorRadio"
+                   id="colorRadio3"
+                   value="black" />
+            <label class="btn bg-dark text-white btn-rounded p-3"
+                   for="colorRadio3"></label>
+        </div>
+
+        <div class="form-check form-check-inline m-0 p-0 pr-3">
+            <input class="btn-check"
+                   type="radio"
+                   name="colorRadio"
+                   id="colorRadio5"
+                   value="blue" />
+            <label class="btn bg-primary btn-rounded p-3"
+                   for="colorRadio5"></label>
+        </div>
+
+        <div class="form-check form-check-inline mt-3 mr-0 p-0 pr-3">
+            <input class="btn-check"
+                   type="radio"
+                   name="colorRadio"
+                   id="colorRadio9"
+                   value="red" />
+            <label class="btn bg-danger btn-rounded p-3"
+                   for="colorRadio9"></label>
+        </div>
+
+        <div class="form-check form-check-inline mt-3 mr-0 p-0 pr-3">
+            <input class="btn-check"
+                   type="radio"
+                   name="colorRadio"
+                   id="colorRadio10"
+                   value="orange" />
+            <label class="btn bg-warning btn-rounded p-3"
+                   for="colorRadio10"></label>
+        </div>
+    </section>*@
+    <!-- Section: Color -->
+</section>
